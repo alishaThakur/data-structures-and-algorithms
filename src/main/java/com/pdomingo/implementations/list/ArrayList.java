@@ -1,10 +1,13 @@
-package com.pdomingo.implementations;
+package com.pdomingo.implementations.list;
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
 import com.pdomingo.interfaces.List;
 
-@SuppressWarnings("unchecked")
+import java.util.Arrays;
+import java.util.Iterator;
+
+
 public class ArrayList<T> extends AbstractList<T> {
 
 	private final int DEFAULT_CAPACITY = 16;
@@ -81,9 +84,9 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	public List<T> put(T item, int index) throws IndexOutOfBoundsException {
 		checkRange(index);
+
 		shiftRight(index);
 		data[index] = item;
-		size++;
 		return this;
 	}
 
@@ -95,6 +98,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	public T remove(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
+
 		T removedItem = data[index];
 		shiftLeft(index);
 
@@ -142,9 +146,6 @@ public class ArrayList<T> extends AbstractList<T> {
 	 *
 	 */
 	public void clear() {
-		for (int idx = 0; idx < size; idx++) {
-			data[idx] = null; // explicit void for GC
-		}
 		reset(DEFAULT_CAPACITY);
 	}
 
@@ -204,15 +205,47 @@ public class ArrayList<T> extends AbstractList<T> {
 	 *
 	 * @param newCapacity
 	 */
+	@SuppressWarnings("unchecked")
 	private void cloneData(int newCapacity) {
 		T[] newArray = (T[]) new Object[newCapacity];
 		System.arraycopy(data, 0, newArray, 0, newCapacity);
 		data = newArray;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void reset(int capacity) {
 		data = (T[]) new Object[capacity];
 		this.capacity = capacity;
 		size = 0;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		ArrayList<?> otherList = (ArrayList<?>) o;
+		if(size != otherList.size()) return false;
+		Iterator<?> iterThis = iterator();
+		Iterator<?> iterOther = otherList.iterator();
+
+		while(iterThis.hasNext() && iterOther.hasNext()) {
+			if( ! iterThis.next().equals(iterOther.next()))
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	protected Object clone() {
+		ArrayList<T> newList = new ArrayList<T>(size);
+		newList.addAll(this);
+		return newList;
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO
+		return -1;
 	}
 }

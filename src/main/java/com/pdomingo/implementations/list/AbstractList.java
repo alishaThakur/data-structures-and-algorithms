@@ -1,4 +1,4 @@
-package com.pdomingo.implementations;
+package com.pdomingo.implementations.list;
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.interfaces.List;
@@ -51,8 +51,9 @@ public abstract class AbstractList<T> implements List<T> {
 		}
 
 		public T next() {
+			T item = get(index);
 			index++;
-			return get(index);
+			return item;
 		}
 
 		public void remove() {
@@ -62,6 +63,6 @@ public abstract class AbstractList<T> implements List<T> {
 
 	protected void checkRange(int index) throws IndexOutOfBoundsException {
 		if(index < 0 || index >= size())
-			throw new IndexOutOfBoundsException("Invalid index");
+			throw new IndexOutOfBoundsException("Invalid index: " + index);
 	}
 }

@@ -1,4 +1,4 @@
-package com.pdomingo.implementations;
+package com.pdomingo.implementations.queue;
 
 import com.pdomingo.interfaces.Queue;
 
