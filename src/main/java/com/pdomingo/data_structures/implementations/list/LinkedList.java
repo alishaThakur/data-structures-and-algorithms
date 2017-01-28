@@ -1,9 +1,10 @@
-package com.pdomingo.implementations.list;
+package com.pdomingo.data_structures.implementations.list;
 
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
-import com.pdomingo.interfaces.List;
+import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
+import com.pdomingo.data_structures.interfaces.List;
 
 import java.util.Iterator;
 
@@ -31,6 +32,17 @@ public class LinkedList<T> extends AbstractList<T> {
 		}
 	}
 
+	public LinkedList() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+
+	public LinkedList(Iterable<T> items) {
+		this();
+		addAll(items);
+	}
+
 	@Override
 	public int size() {
 		return size;
@@ -48,6 +60,16 @@ public class LinkedList<T> extends AbstractList<T> {
 
 		Node node = getNodeAt(index);
 		return node.item;
+	}
+
+	@Override
+	public T first() {
+		return isEmpty() ? null : get(0);
+	}
+
+	@Override
+	public T last() {
+		return isEmpty() ? null : get(size - 1);
 	}
 
 	@Override
@@ -150,6 +172,16 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
+	public T removeFirst() {
+		return null;
+	}
+
+	@Override
+	public T removeLast() {
+		return null;
+	}
+
+	@Override
 	public void clear() {
 
 		for(Node node = head; node != null; node = node.next) {
@@ -189,7 +221,7 @@ public class LinkedList<T> extends AbstractList<T> {
 		}
 	}
 
-	private List<T> addFirst(T item) {
+	public List<T> addFirst(T item) {
 
 		if (isEmpty())
 			addLast(item);
@@ -204,7 +236,7 @@ public class LinkedList<T> extends AbstractList<T> {
 		return this;
 	}
 
-	private List<T> addLast(T item) {
+	public List<T> addLast(T item) {
 
 		Node newTail = new Node(item, null, null);
 

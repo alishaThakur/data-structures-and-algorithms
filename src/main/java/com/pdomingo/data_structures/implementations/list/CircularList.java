@@ -1,9 +1,10 @@
-package com.pdomingo.implementations.list;
+package com.pdomingo.data_structures.implementations.list;
 
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
-import com.pdomingo.interfaces.List;
+import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
+import com.pdomingo.data_structures.interfaces.List;
 
 import java.util.Iterator;
 
@@ -12,10 +13,8 @@ import java.util.Iterator;
  */
 public class CircularList<T> extends AbstractList<T> {
 
-	private Node tail;
+	private Node current;
 	private int size;
-
-	private final int DEFAULT_CAPACITY = 16;
 
 	private class Node {
 		T item;
@@ -59,6 +58,16 @@ public class CircularList<T> extends AbstractList<T> {
 			if (--idx == 0)
 				return item;
 
+		return null;
+	}
+
+	@Override
+	public T first() {
+		return null;
+	}
+
+	@Override
+	public T last() {
 		return null;
 	}
 
@@ -152,6 +161,16 @@ public class CircularList<T> extends AbstractList<T> {
 
 		remove(position);
 		return true;
+	}
+
+	@Override
+	public T removeFirst() {
+		return null;
+	}
+
+	@Override
+	public T removeLast() {
+		return null;
 	}
 
 	@Override

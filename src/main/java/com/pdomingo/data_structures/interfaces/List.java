@@ -1,7 +1,10 @@
-package com.pdomingo.interfaces;
+package com.pdomingo.data_structures.interfaces;
 
-
-public interface List<T> extends Iterable<T> {
+/**
+ *
+ * @param <T>
+ */
+public interface List<T> extends Iterable<T>, Cloneable {
 
 	int size();
 
@@ -9,9 +12,17 @@ public interface List<T> extends Iterable<T> {
 
 	List<T> add(T item);
 
+	List<T> addFirst(T item);
+
+	List<T> addLast(T item);
+
 	List<T> addAll(Iterable<T> items);
 
 	T get(int index) throws IndexOutOfBoundsException;
+
+	T first();
+
+	T last();
 
 	List<T> put(T item, int index) throws IndexOutOfBoundsException;
 
@@ -19,9 +30,15 @@ public interface List<T> extends Iterable<T> {
 
 	boolean remove(T item);
 
+	T removeFirst();
+
+	T removeLast();
+
 	Iterable<T> removeAll(Iterable<T> items);
 
 	void clear();
 
 	boolean contains(T item);
+
+	boolean containsAll(Iterable<T> items);
 }

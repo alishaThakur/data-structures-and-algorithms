@@ -1,7 +1,7 @@
-package com.pdomingo.implementations.list;
+package com.pdomingo.data_structures.implementations.list.abstracts;
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
-import com.pdomingo.interfaces.List;
+import com.pdomingo.data_structures.interfaces.List;
 
 import java.util.Iterator;
 
@@ -13,6 +13,15 @@ public abstract class AbstractList<T> implements List<T> {
 	@Override
 	public boolean isEmpty() {
 		return size() == 0;
+	}
+
+	@Override
+	public boolean containsAll(Iterable<T> items) {
+		for(T item : items)
+			if( ! contains(item))
+				return false;
+
+		return true;
 	}
 
 	@Override

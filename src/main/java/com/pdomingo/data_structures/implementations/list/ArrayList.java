@@ -1,10 +1,10 @@
-package com.pdomingo.implementations.list;
+package com.pdomingo.data_structures.implementations.list;
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
-import com.pdomingo.interfaces.List;
+import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
+import com.pdomingo.data_structures.interfaces.List;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 
@@ -65,6 +65,19 @@ public class ArrayList<T> extends AbstractList<T> {
 		return this;
 	}
 
+	@Override
+	public List<T> addFirst(T item) {
+		shiftRight(0);
+		data[0] = item;
+		return this;
+	}
+
+	@Override
+	public List<T> addLast(T item) {
+		add(item);
+		return this;
+	}
+
 	/**
 	 *
 	 * @param index
@@ -74,6 +87,16 @@ public class ArrayList<T> extends AbstractList<T> {
 	public T get(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 		return data[index];
+	}
+
+	@Override
+	public T first() {
+		return isEmpty() ? null : data[0];
+	}
+
+	@Override
+	public T last() {
+		return isEmpty() ? null : data[size - 1];
 	}
 
 	/**
@@ -142,10 +165,29 @@ public class ArrayList<T> extends AbstractList<T> {
 		return true;
 	}
 
+	@Override
+	public T removeFirst() {
+		T item = isEmpty() ? null : first();
+		shiftRight(0);
+		return item;
+	}
+
+	@Override
+	public T removeLast() {
+		T item = isEmpty() ? null : last();
+		data[size - 1] = null;
+		size--;
+		return item;
+	}
+
 	/**
 	 *
 	 */
 	public void clear() {
+
+		for (int idx = 0; idx < size; idx++)
+			data[idx] = null; // help GC
+
 		reset(DEFAULT_CAPACITY);
 	}
 
@@ -199,6 +241,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		int length = size - startIndex;
 		System.arraycopy(data, startIndex, data, startIndex + 1, length);
 		data[startIndex] = null;
+		size++;
 	}
 
 	/**

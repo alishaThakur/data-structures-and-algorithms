@@ -1,9 +1,9 @@
 package com.pdomingo;
 
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
-import com.pdomingo.implementations.list.ArrayList;
-import com.pdomingo.implementations.list.LinkedList;
-import com.pdomingo.interfaces.List;
+import com.pdomingo.data_structures.implementations.list.ArrayList;
+import com.pdomingo.data_structures.implementations.list.LinkedList;
+import com.pdomingo.data_structures.interfaces.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
