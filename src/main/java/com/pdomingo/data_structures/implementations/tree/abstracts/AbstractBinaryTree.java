@@ -35,7 +35,7 @@ public abstract class AbstractBinaryTree<T> extends AbstractTree<T> implements B
 		if(left != null)
 			children.add(left);
 		if(right != null)
-			children.add(right);;
+			children.add(right);
 
 		return children;
 	}

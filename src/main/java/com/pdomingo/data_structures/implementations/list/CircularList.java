@@ -14,6 +14,8 @@ import java.util.Iterator;
 public class CircularList<T> extends AbstractList<T> {
 
 	private Node current;
+	private Node tail;
+
 	private int size;
 
 	private class Node {
@@ -213,12 +215,12 @@ public class CircularList<T> extends AbstractList<T> {
 		}
 	}
 
-	private List<T> addFirst(T item) {
+	public List<T> addFirst(T item) {
 		addLast(item);
 		return this;
 	}
 
-	private List<T> addLast(T item) {
+	public List<T> addLast(T item) {
 
 		Node newTail = new Node(item, null, null);
 

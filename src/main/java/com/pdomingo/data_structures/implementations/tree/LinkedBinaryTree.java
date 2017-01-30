@@ -40,8 +40,30 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 		private void removeChild(BinaryNode<T> node) {
 			if(node == left)
 				left = null;
-			else if(right == left)
+			else if(node == right)
 				right = null;
+
+		}
+
+		private boolean hasLeft() {
+			return left != null;
+		}
+
+		private boolean hasRight() {
+			return right != null;
+		}
+
+		private T delete() {
+
+			if(parent != null)
+				parent.removeChild(this);
+
+			this.parent = null;
+			this.left = null;
+			this.right = null;
+			T element = this.element;
+			this.element = null;
+			return element;
 		}
 	}
 
@@ -50,15 +72,28 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 		this.size = 0;
 	}
 
-	private BinaryTree<T> asSubTree(BinaryNode<T> root) {
+	private BinaryTree<T> asSubTree(Position<T> root) {
+		BinaryNode<T> bnRoot = binaryNode(root);
+		return new LinkedBinaryTree<>(bnRoot);
+	}
 
-		BinaryTree<T> tree = new LinkedBinaryTree<>();
-
+	private LinkedBinaryTree(BinaryNode<T> root) {
 		this.root = root;
-		// TODO
-		this.size = -1;
+		this.size = subtreeSize(root);
+	}
 
-		return null;
+	private int subtreeSize(BinaryNode<T> root) {
+
+		int size = 0;
+
+		if(root.hasLeft())
+			size += subtreeSize(root.left);
+		if(root.hasRight())
+			size += subtreeSize(root.right);
+
+		size += numChildren(root);
+
+		return size;
 	}
 
 	/**********************************************************/
@@ -100,7 +135,7 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 	}
 
 	public Position<T> addRoot(T element) {
-		if(isEmpty())
+		if(!isEmpty())
 			throw new IllegalStateException("Tree is not empty");
 
 		root = new BinaryNode<>(null, null, null, element);
@@ -166,24 +201,24 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 		size += (leftTree.size() + rightTree.size());
 	}
 
-	public void remove(Position<T> position) {
+	public void prune(Position<T> position) {
 
-		// TODO: revisar
+		if(position == null)
+			return;
 
 		BinaryNode<T> node = binaryNode(position);
-		BinaryNode<T> parent = node.parent;
 
-		if(isRoot(node))
-			root = null;
-		else {
-			if(isLeaf(node))
-				parent.removeChild(node);
-			else // Node is not root nor leaf
-				attach(parent, asSubTree(node.left), asSubTree(node.right));
+		if(node.hasLeft()) {
+			prune(node.left);
+			node.left.delete();
+			size--;
 		}
 
-		node.element = null;
-		size--;
+		if(node.hasRight()) {
+			prune(node.right);
+			node.right.delete();
+			size--;
+		}
 	}
 
 	@Override
@@ -192,7 +227,9 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 		List<Position<T>> positions = new ArrayList<>();
 
 		if(!isEmpty()) {
-			// TODO
+
+
+
 		}
 
 		return positions;
@@ -213,6 +250,7 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 		if( ! (position instanceof BinaryNode))
 			throw new IllegalArgumentException("Invalid position");
 
+		// Safe cast
 		BinaryNode<T> binaryNode = (BinaryNode<T>) position;
 
 		if(binaryNode.parent == binaryNode)

@@ -32,4 +32,37 @@ public abstract class AbstractTree<T> implements Tree<T> {
 
 		return height;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		return treeStructure(sb, root()).toString();
+	}
+
+	private StringBuilder treeStructure(StringBuilder sb, Position<T> node) {
+
+		if(node == null)
+			return sb;
+
+		int depth = depth(node);
+		if(depth == 0)
+			sb.append(node.getElement()).append("\n");
+		else {
+
+			String symbol = isLeaf(node) ? "└── " : "├── ";
+
+			for (int idx = 0; idx < depth; idx++)
+				sb.append("|\t");
+			sb.append("\n");
+			for (int idx = 0; idx < depth - 1; idx++)
+				sb.append("|\t");
+
+			sb.append(symbol).append(node.getElement()).append("\n");
+		}
+
+		for(Position<T> child : children(node))
+			treeStructure(sb, child);
+
+		return sb;
+	}
 }
