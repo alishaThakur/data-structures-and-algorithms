@@ -173,7 +173,10 @@ public class LinkedList<T> extends AbstractList<T> {
 
 	@Override
 	public T removeFirst() {
-		return null;
+
+		// TODO Rehacer
+
+		return isEmpty() ? null : remove(0);
 	}
 
 	@Override

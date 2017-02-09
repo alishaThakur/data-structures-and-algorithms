@@ -1,9 +1,7 @@
 package com.pdomingo.data_structures.implementations.tree.abstracts;
 
 import com.pdomingo.data_structures.implementations.list.ArrayList;
-import com.pdomingo.data_structures.interfaces.BinaryTree;
-import com.pdomingo.data_structures.interfaces.List;
-import com.pdomingo.data_structures.interfaces.Position;
+import com.pdomingo.data_structures.interfaces.*;
 
 /**
  * Created by Pablo on 28/1/17.

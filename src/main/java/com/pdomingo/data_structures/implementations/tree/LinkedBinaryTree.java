@@ -5,6 +5,7 @@ import com.pdomingo.data_structures.implementations.tree.abstracts.AbstractBinar
 import com.pdomingo.data_structures.interfaces.BinaryTree;
 import com.pdomingo.data_structures.interfaces.List;
 import com.pdomingo.data_structures.interfaces.Position;
+import com.pdomingo.data_structures.interfaces.TraversalStrategy;
 
 import java.util.Iterator;
 
@@ -222,22 +223,8 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 	}
 
 	@Override
-	public Iterable<Position<T>> positions() {
-
-		List<Position<T>> positions = new ArrayList<>();
-
-		if(!isEmpty()) {
-
-
-
-		}
-
-		return positions;
-	}
-
-	@Override
-	public Iterator<T> iterator() {
-		return null;
+	public Iterable<Position<T>> traverse(TraversalStrategy<T> strategy) {
+		return strategy.traverse(this);
 	}
 
 	/**
@@ -257,5 +244,37 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 			throw new IllegalArgumentException("Position is no longer in the tree");
 
 		return binaryNode;
+	}
+
+
+	public static void main(String[] args) {
+
+		LinkedBinaryTree<String> tree = new LinkedBinaryTree<>();
+
+		tree.addRoot("A");
+		Position<String> left = tree.addLeft(tree.root(), "B");
+		Position<String> right = tree.addRight(tree.root(), "C");
+
+		Position<String> left2 = tree.addLeft(left, "B1");
+		tree.addRight(left, "B2");
+
+		tree.addLeft(right, "C1");
+		Position<String> right2 = tree.addRight(right, "C2");
+
+		tree.addLeft(left2, "B11");
+		tree.addRight(left2, "B12");
+
+		Position<String> right21 = tree.addLeft(right2, "C21");
+		tree.addRight(right2, "C22");
+
+		tree.addLeft(right21, "C211");
+		Position<String> tmp = tree.addRight(right21, "C212");
+
+		System.out.println(tree.toString());
+
+
+		Iterable<Position<String>> positions = tree.traverse(TraversalStrategies.inOrder());
+		for(Position<String> pos : positions)
+			System.out.println(pos.getElement());
 	}
 }

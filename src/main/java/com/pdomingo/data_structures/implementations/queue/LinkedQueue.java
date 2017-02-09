@@ -38,12 +38,18 @@ public class LinkedQueue<T> implements Queue<T> {
 
 	@Override
 	public void enqueue(T item) {
-		queue.addFirst(item);
+		queue.addLast(item);
+	}
+
+	@Override
+	public void enqueueAll(Iterable<T> items) {
+		for(T item : items)
+			enqueue(item);
 	}
 
 	@Override
 	public T dequeue() {
-		return queue.removeLast();
+		return queue.removeFirst();
 	}
 
 	@Override

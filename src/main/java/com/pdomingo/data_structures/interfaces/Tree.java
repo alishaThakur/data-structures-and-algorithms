@@ -27,4 +27,5 @@ public interface Tree<T> extends Iterable<T> {
 
 	Iterable<Position<T>> positions();
 
+	Iterable<Position<T>> traverse(TraversalStrategy<T> strategy);
 }
