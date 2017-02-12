@@ -16,23 +16,31 @@ public interface List<T> extends Iterable<T>, Cloneable {
 
 	List<T> addLast(T item);
 
+	List<T> addAfter(Position<T> position, T item);
+
+	List<T> addBefore(Position<T> position, T item);
+
 	List<T> addAll(Iterable<T> items);
 
-	T get(int index) throws IndexOutOfBoundsException;
+	Position<T> get(int index) throws IndexOutOfBoundsException;
 
-	T first();
+	Position<T> first();
 
-	T last();
+	Position<T> last();
 
 	List<T> put(T item, int index) throws IndexOutOfBoundsException;
 
-	T remove(int index) throws IndexOutOfBoundsException;
+	Position<T> remove(int index) throws IndexOutOfBoundsException;
 
 	boolean remove(T item);
 
-	T removeFirst();
+	Position<T> removeFirst();
 
-	T removeLast();
+	Position<T> removeLast();
+
+	Position<T> removeNext(Position<T> position);
+
+	Position<T> removePrevious(Position<T> position);
 
 	Iterable<T> removeAll(Iterable<T> items);
 
@@ -41,4 +49,6 @@ public interface List<T> extends Iterable<T>, Cloneable {
 	boolean contains(T item);
 
 	boolean containsAll(Iterable<T> items);
+
+	Iterable<Position<T>> positions();
 }

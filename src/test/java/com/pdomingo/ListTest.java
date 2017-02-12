@@ -62,7 +62,7 @@ public class ListTest {
 		testList.add(obj);
 
 		assertTrue(testList.size() == 1);
-		assertEquals(obj, testList.get(0));
+		assertEquals(obj, testList.get(0).getElement());
 	}
 
 	@Test
@@ -92,9 +92,9 @@ public class ListTest {
 		testList.addAll(iterObj);
 
 		assertTrue(testList.size() == 3);
-		assertEquals(item1, testList.get(0));
-		assertEquals(item2, testList.get(1));
-		assertEquals(item3, testList.get(2));
+		assertEquals(item1, testList.get(0).getElement());
+		assertEquals(item2, testList.get(1).getElement());
+		assertEquals(item3, testList.get(2).getElement());
 	}
 
 	@Test
@@ -109,9 +109,9 @@ public class ListTest {
 		testList.add(item3);
 
 		assertTrue(testList.size() == 3);
-		assertEquals(item1, testList.get(0));
-		assertEquals(item2, testList.get(1));
-		assertEquals(item3, testList.get(2));
+		assertEquals(item1, testList.get(0).getElement());
+		assertEquals(item2, testList.get(1).getElement());
+		assertEquals(item3, testList.get(2).getElement());
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
@@ -130,12 +130,12 @@ public class ListTest {
 		testList.add(item1);
 
 		assertTrue(testList.size() == 1);
-		assertEquals(item1, testList.get(0));
+		assertEquals(item1, testList.get(0).getElement());
 
 		testList.put(item2, 0);
 
 		assertTrue(testList.size() == 1);
-		assertEquals(item2, testList.get(0));
+		assertEquals(item2, testList.get(0).getElement());
 	}
 
 	@Test(expected = IndexOutOfBoundsException.class)
@@ -159,17 +159,17 @@ public class ListTest {
 
 		assertTrue(testList.size() == 3);
 
-		removedItem = testList.remove(2);
+		removedItem = testList.remove(2).getElement();
 
 		assertEquals(removedItem, item3);
 		assertTrue(testList.size() == 2);
 
-		removedItem = testList.remove(0);
+		removedItem = testList.remove(0).getElement();
 
 		assertEquals(removedItem, item1);
 		assertTrue(testList.size() == 1);
 
-		removedItem = testList.remove(0);
+		removedItem = testList.remove(0).getElement();
 
 		assertEquals(removedItem, item2);
 		assertTrue(testList.size() == 0);
@@ -198,14 +198,14 @@ public class ListTest {
 		// Pre [item1, item2, item3]
 		assertTrue(testList.remove(item2));
 		assertTrue(testList.size() == 2);
-		assertEquals(testList.get(0), item1);
-		assertEquals(testList.get(1), item3);
+		assertEquals(testList.get(0).getElement(), item1);
+		assertEquals(testList.get(1).getElement(), item3);
 		// Pos [item1, item3]
 
 		// Pre [item1, item3]
 		assertTrue(testList.remove(item1));
 		assertTrue(testList.size() == 1);
-		assertEquals(testList.get(0), item3);
+		assertEquals(testList.get(0).getElement(), item3);
 		// Pos [item3]
 
 		// Pre [item3]
@@ -225,7 +225,7 @@ public class ListTest {
 		// Pre [item1]
 		assertFalse(testList.remove(item2));
 		assertFalse(testList.isEmpty());
-		assertEquals(testList.get(0), item1);
+		assertEquals(testList.get(0).getElement(), item1);
 		// Pos [item1]
 	}
 
@@ -242,7 +242,7 @@ public class ListTest {
 
 		// Pre [item1, item2, item3]
 		testList.removeAll(Arrays.asList(item1, item3));
-		assertEquals(testList.get(0), item2);
+		assertEquals(testList.get(0).getElement(), item2);
 		assertTrue(testList.size() == 1);
 		// Pos [item2]
 
@@ -370,8 +370,8 @@ public class ListTest {
 
 		assertTrue(testList.size() == 3);
 		assertFalse(testList.isEmpty());
-		assertEquals(testList.get(0), item2);
-		assertEquals(testList.get(1), item6);
-		assertEquals(testList.get(2), item8);
+		assertEquals(testList.get(0).getElement(), item2);
+		assertEquals(testList.get(1).getElement(), item6);
+		assertEquals(testList.get(2).getElement(), item8);
 	}
 }

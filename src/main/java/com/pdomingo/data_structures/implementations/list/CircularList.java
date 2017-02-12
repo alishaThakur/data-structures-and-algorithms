@@ -1,10 +1,12 @@
 package com.pdomingo.data_structures.implementations.list;
 
 
+import com.pdomingo.data_structures.interfaces.Position;
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
 import com.pdomingo.data_structures.interfaces.List;
+import javafx.geometry.Pos;
 
 import java.util.Iterator;
 
@@ -13,24 +15,29 @@ import java.util.Iterator;
  */
 public class CircularList<T> extends AbstractList<T> {
 
-	private Node current;
-	private Node tail;
+	private Node<T> current;
+	private Node<T> tail;
 
 	private int size;
 
-	private class Node {
+	private class Node<T> implements Position<T> {
 		T item;
-		Node prev, next;
+		Node<T> prev, next;
 
-		private Node(T item, Node prev, Node next) {
+		private Node(T item, Node<T> prev, Node<T> next) {
 			this.item = item;
 			this.prev = prev;
 			this.next = next;
 		}
 
 		@Override
+		public T getElement() {
+			return item;
+		}
+
+		@Override
 		public String toString() {
-			return prev + "<- {" + item + "} ->" + next;
+			return "Node{" + item + "}";
 		}
 	}
 
@@ -46,30 +53,27 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T get(int index) throws IndexOutOfBoundsException {
+	public Position<T> get(int index) throws IndexOutOfBoundsException {
 
 		index = index % size; //Circular nature
 		checkRange(index);
 
 		boolean leftHalf = index < Math.floorDiv(index, 2);
 
-		Iterable<T> iter = leftHalf ? this : new BackwardIterable();
-		int idx = leftHalf ? index : size - index;
-
-		for (T item : iter)
-			if (--idx == 0)
+		for (Position<T> item : positions())
+			if (--index == 0)
 				return item;
 
 		return null;
 	}
 
 	@Override
-	public T first() {
+	public Position<T> first() {
 		return null;
 	}
 
 	@Override
-	public T last() {
+	public Position<T> last() {
 		return null;
 	}
 
@@ -79,7 +83,7 @@ public class CircularList<T> extends AbstractList<T> {
 		index = index % size; //Circular nature
 		checkRange(index);
 
-		Node node = tail;
+		Node<T> node = tail;
 		while (index-- > 0)
 			node = node.next;
 
@@ -89,24 +93,23 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T remove(int index) throws IndexOutOfBoundsException {
+	public Position<T> remove(int index) throws IndexOutOfBoundsException {
 
 		index = index % size; //Circular nature
 		checkRange(index);
 
-		Node node = getNode(index);
-		T item = node.item;
+		Node<T> node = getNode(index);
 
 		if (node == tail) { // Remove tail
-			Node newTail = node.prev;
+			Node<T> newTail = node.prev;
 
 			node.prev = null;
 			newTail.next = null;
 
 			tail = newTail;
 		} else { // Remove else
-			Node prevNode = node.prev;
-			Node nextNode = node.next;
+			Node<T> prevNode = node.prev;
+			Node<T> nextNode = node.next;
 
 			prevNode.next = nextNode; // A -> B -> C ==> A -> C
 			nextNode.prev = prevNode; // A <- B <- C ==> A <- C
@@ -117,17 +120,17 @@ public class CircularList<T> extends AbstractList<T> {
 
 		size--;
 
-		return item;
+		return node;
 	}
 
-	private Node getNode(int index) {
+	private Node<T> getNode(int index) {
 
 		assert (index >= 0 && index < size);
 
 		if (index == size - 1)
 			return tail;
 		else {
-			Node node = tail;
+			Node<T> node = tail;
 			while (index-- > 0)
 				node = node.next;
 			return node;
@@ -166,19 +169,29 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T removeFirst() {
+	public Position<T> removeFirst() {
 		return null;
 	}
 
 	@Override
-	public T removeLast() {
+	public Position<T> removeLast() {
+		return null;
+	}
+
+	@Override
+	public Position<T> removeNext(Position<T> position) {
+		return null;
+	}
+
+	@Override
+	public Position<T> removePrevious(Position<T> position) {
 		return null;
 	}
 
 	@Override
 	public void clear() {
 
-		for(Node node = tail; node != null; node = node.next) {
+		for(Node<T> node = tail; node != null; node = node.next) {
 			node.prev = null;
 			node.item = null;
 		}
@@ -192,13 +205,18 @@ public class CircularList<T> extends AbstractList<T> {
 		return findItem(item) != -1;
 	}
 
+	@Override
+	public Iterable<Position<T>> positions() {
+		return null;
+	}
+
 	private class BackwardIterable implements Iterable<T> {
 
 		@Override
 		public Iterator<T> iterator() {
 			return new Iterator<T>() {
 
-				private Node currentNode = tail;
+				private Node<T> currentNode = tail;
 
 				@Override
 				public boolean hasNext() {
@@ -222,7 +240,7 @@ public class CircularList<T> extends AbstractList<T> {
 
 	public List<T> addLast(T item) {
 
-		Node newTail = new Node(item, null, null);
+		Node<T> newTail = new Node<T>(item, null, null);
 
 		if (isEmpty()) {
 			tail = newTail;
@@ -241,6 +259,16 @@ public class CircularList<T> extends AbstractList<T> {
 		size++;
 
 		return this;
+	}
+
+	@Override
+	public List<T> addAfter(Position<T> position, T item) {
+		return null;
+	}
+
+	@Override
+	public List<T> addBefore(Position<T> position, T item) {
+		return null;
 	}
 
 	public void rotate() {

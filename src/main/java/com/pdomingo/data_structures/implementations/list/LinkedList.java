@@ -1,29 +1,41 @@
 package com.pdomingo.data_structures.implementations.list;
 
-
+import com.pdomingo.data_structures.interfaces.Position;
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
-import com.pdomingo.exceptions.ItemNotFoundException;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
 import com.pdomingo.data_structures.interfaces.List;
 
 import java.util.Iterator;
 
 /**
- * Created by Pablo on 20/12/16.
+ *
+ * @param <T>
  */
 public class LinkedList<T> extends AbstractList<T> {
 
-	private Node head, tail;
+	private Node<T> head, tail;
 	private int size;
 
-	private class Node {
-		T item;
-		Node prev, next;
+	/********************* Nested classes *********************/
 
-		private Node(T item, Node prev, Node next) {
+	/**
+	 *
+	 * @param <E>
+	 */
+	private class Node<E> implements Position<E> {
+
+		E item;
+		Node<E> prev, next;
+
+		private Node(E item,Node<E> prev,Node<E> next) {
 			this.item = item;
 			this.prev = prev;
 			this.next = next;
+		}
+
+		@Override
+		public E getElement() {
+			return item;
 		}
 
 		@Override
@@ -31,6 +43,8 @@ public class LinkedList<T> extends AbstractList<T> {
 			return "Node{" + item + "}";
 		}
 	}
+
+	/********************* Constructors *********************/
 
 	public LinkedList() {
 		head = null;
@@ -42,6 +56,8 @@ public class LinkedList<T> extends AbstractList<T> {
 		this();
 		addAll(items);
 	}
+
+	/********************* Public methods *********************/
 
 	@Override
 	public int size() {
@@ -55,20 +71,19 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T get(int index) throws IndexOutOfBoundsException {
+	public Position<T> get(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 
-		Node node = getNodeAt(index);
-		return node.item;
+		return getNodeAt(index);
 	}
 
 	@Override
-	public T first() {
+	public Position<T> first() {
 		return isEmpty() ? null : get(0);
 	}
 
 	@Override
-	public T last() {
+	public Position<T> last() {
 		return isEmpty() ? null : get(size - 1);
 	}
 
@@ -77,40 +92,39 @@ public class LinkedList<T> extends AbstractList<T> {
 
 		checkRange(index);
 
-		Node node = getNodeAt(index);
+		Node<T> node = getNodeAt(index);
 		node.item = item;
 
 		return this;
 	}
 
 	@Override
-	public T remove(int index) throws IndexOutOfBoundsException {
+	public Position<T> remove(int index) throws IndexOutOfBoundsException {
 
 		checkRange(index);
 
-		Node node = getNodeAt(index);
-		T item = node.item;
+		Node<T> node = getNodeAt(index);
 
 		if(node == head && node == tail) {
 			head = null;
 			tail = null;
 		} else if (node == head) { // Remove head
-			Node newHead = node.next;
+			Node<T> newHead = node.next;
 
 			node.next = null;
 			newHead.prev = null;
 
 			head = newHead;
 		} else if (node == tail) { // Remove tail
-			Node newTail = node.prev;
+			Node<T> newTail = node.prev;
 
 			node.prev = null;
 			newTail.next = null;
 
 			tail = newTail;
 		} else { // Remove else
-			Node prevNode = node.prev;
-			Node nextNode = node.next;
+			Node<T> prevNode = node.prev;
+			Node<T> nextNode = node.next;
 
 			prevNode.next = nextNode; // A -> B -> C ==> A -> C
 			nextNode.prev = prevNode; // A <- B <- C ==> A <- C
@@ -121,44 +135,7 @@ public class LinkedList<T> extends AbstractList<T> {
 
 		size--;
 
-		return item;
-	}
-
-	private Node getNodeAt(int index) {
-
-		assert (index >= 0 && index < size);
-
-		if (index == 0)
-			return head;
-		else if (index == size - 1)
-			return tail;
-		else {
-			Node node = head;
-			while (index-- > 0)
-				node = node.next;
-			return node;
-		}
-	}
-
-	/**
-	 * @param item
-	 * @return
-	 * @throws ItemNotFoundException
-	 */
-	private int findItem(T item) {
-
-		int position = -1;
-		int idx = 0;
-
-		for (T itemToCompare : this) {
-			if (itemToCompare.equals(item)) {
-				position = idx;
-				break;
-			}
-			idx++;
-		}
-
-		return position;
+		return node;
 	}
 
 	@Override
@@ -172,7 +149,7 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T removeFirst() {
+	public Position<T> removeFirst() {
 
 		// TODO Rehacer
 
@@ -180,14 +157,24 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T removeLast() {
+	public Position<T> removeLast() {
+		return null;
+	}
+
+	@Override
+	public Position<T> removeNext(Position<T> position) {
+		return null;
+	}
+
+	@Override
+	public Position<T> removePrevious(Position<T> position) {
 		return null;
 	}
 
 	@Override
 	public void clear() {
 
-		for(Node node = head; node != null; node = node.next) {
+		for(Node<T> node = head; node != null; node = node.next) {
 			node.prev = null;
 			node.item = null;
 		}
@@ -201,13 +188,41 @@ public class LinkedList<T> extends AbstractList<T> {
 		return findItem(item) != -1;
 	}
 
+	@Override
+	public Iterable<Position<T>> positions() {
+		return new PositionIterable();
+	}
+
+	private class PositionIterable implements Iterable<Position<T>> {
+
+		@Override
+		public Iterator<Position<T>> iterator() {
+			return new Iterator<Position<T>>() {
+
+				private int index = 0;
+
+				@Override
+				public boolean hasNext() {
+					return index < size();
+				}
+
+				@Override
+				public Position<T> next() {
+					Position<T> position = get(index);
+					index++;
+					return position;
+				}
+			};
+		}
+	}
+
 	private class BackwardIterable implements Iterable<T> {
 
 		@Override
 		public Iterator<T> iterator() {
 			return new Iterator<T>() {
 
-				private Node currentNode = tail;
+				private Node<T> currentNode = tail;
 
 				@Override
 				public boolean hasNext() {
@@ -229,7 +244,7 @@ public class LinkedList<T> extends AbstractList<T> {
 		if (isEmpty())
 			addLast(item);
 		else {
-			Node newHead = new Node(item, null, null);
+			Node<T> newHead = new Node<>(item, null, null);
 			head.prev = newHead; // NH <- H
 			newHead.next = head; // NH <-> H
 			head = newHead;
@@ -241,7 +256,7 @@ public class LinkedList<T> extends AbstractList<T> {
 
 	public List<T> addLast(T item) {
 
-		Node newTail = new Node(item, null, null);
+		Node<T> newTail = new Node<>(item, null, null);
 
 		if (isEmpty()) {
 			head = newTail;
@@ -255,6 +270,16 @@ public class LinkedList<T> extends AbstractList<T> {
 		size++;
 
 		return this;
+	}
+
+	@Override
+	public List<T> addAfter(Position<T> position, T item) {
+		return null;
+	}
+
+	@Override
+	public List<T> addBefore(Position<T> position, T item) {
+		return null;
 	}
 
 	@Override
@@ -272,5 +297,68 @@ public class LinkedList<T> extends AbstractList<T> {
 				return false;
 		}
 		return true;
+	}
+
+	/********************* Private methods *********************/
+
+	/**
+	 *
+	 * @param position
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	private Node<T> node(Position<T> position) throws IllegalArgumentException {
+
+		if( ! (position instanceof Node))
+			throw new IllegalArgumentException("Invalid position");
+
+		// Safe cast
+		Node<T> node = (Node<T>) position;
+
+		if(node.next == null && node.prev == null)
+			throw new IllegalArgumentException("Position is no longer in the list");
+
+		return node;
+	}
+
+	/**
+	 * @param item
+	 * @return
+	 */
+	private int findItem(T item) {
+
+		int position = -1;
+		int idx = 0;
+
+		for (T itemToCompare : this) {
+			if (itemToCompare.equals(item)) {
+				position = idx;
+				break;
+			}
+			idx++;
+		}
+
+		return position;
+	}
+
+	/**
+	 *
+	 * @param index
+	 * @return
+	 */
+	private Node<T> getNodeAt(int index) {
+
+		assert (index >= 0 && index < size);
+
+		if (index == 0)
+			return head;
+		else if (index == size - 1)
+			return tail;
+		else {
+			Node<T> node = head;
+			while (index-- > 0)
+				node = node.next;
+			return node;
+		}
 	}
 }

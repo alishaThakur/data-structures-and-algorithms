@@ -5,7 +5,7 @@ import com.pdomingo.data_structures.implementations.queue.LinkedQueue;
 import com.pdomingo.data_structures.interfaces.*;
 
 /**
- * Created by Pablo on 9/2/17.
+ *
  */
 public class TraversalStrategies {
 
@@ -28,6 +28,8 @@ public class TraversalStrategies {
 	public static <T> TraversalStrategy<T> inOrder() {
 		return new InOrderTraversal<>();
 	}
+
+	/********************* Nested classes *********************/
 
 	/**
 	 *
@@ -166,6 +168,5 @@ public class TraversalStrategies {
 
 			return positions;
 		}
-	};
-
+	}
 }

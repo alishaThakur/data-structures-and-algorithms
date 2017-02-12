@@ -47,12 +47,12 @@ public class ArrayStack<T> implements Stack<T> {
 
 	@Override
 	public T pop() {
-		return stack.removeLast();
+		return stack.removeLast().getElement();
 	}
 
 	@Override
 	public T peek() {
-		return stack.last();
+		return stack.last().getElement();
 	}
 
 	@Override

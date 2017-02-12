@@ -272,8 +272,8 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 
 		System.out.println(tree.toString());
 
-
-		Iterable<Position<String>> positions = tree.traverse(TraversalStrategies.inOrder());
+		TraversalStrategy<String> inOrder = TraversalStrategies.inOrder();
+		Iterable<Position<String>> positions = tree.traverse(inOrder);
 		for(Position<String> pos : positions)
 			System.out.println(pos.getElement());
 	}

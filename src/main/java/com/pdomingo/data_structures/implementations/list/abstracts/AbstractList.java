@@ -1,5 +1,6 @@
 package com.pdomingo.data_structures.implementations.list.abstracts;
 
+import com.pdomingo.data_structures.interfaces.Position;
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.data_structures.interfaces.List;
 
@@ -53,20 +54,18 @@ public abstract class AbstractList<T> implements List<T> {
 	 */
 	protected class AbstractListIterator implements Iterator<T> {
 
-		private int index = 0;
+		private Iterator<Position<T>> iterator = positions().iterator();
 
 		public boolean hasNext() {
-			return index < size();
+			return iterator.hasNext();
 		}
 
 		public T next() {
-			T item = get(index);
-			index++;
-			return item;
+			return iterator.next().getElement();
 		}
 
 		public void remove() {
-			AbstractList.this.remove(index);
+			iterator.remove();
 		}
 	}
 

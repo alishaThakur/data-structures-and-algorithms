@@ -11,7 +11,7 @@ import java.util.Iterator;
  */
 public class ArrayQueue<T> implements Queue<T> {
 
-	public List<T> queue;
+	private List<T> queue;
 
 	public ArrayQueue() {
 		this.queue = new ArrayList<>();
@@ -53,12 +53,12 @@ public class ArrayQueue<T> implements Queue<T> {
 
 	@Override
 	public T dequeue() {
-		return queue.removeLast();
+		return queue.removeLast().getElement();
 	}
 
 	@Override
 	public T peek() {
-		return queue.last();
+		return queue.last().getElement();
 	}
 
 	@Override

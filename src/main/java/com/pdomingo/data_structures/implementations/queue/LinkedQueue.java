@@ -49,12 +49,12 @@ public class LinkedQueue<T> implements Queue<T> {
 
 	@Override
 	public T dequeue() {
-		return queue.removeFirst();
+		return queue.removeFirst().getElement();
 	}
 
 	@Override
 	public T peek() {
-		return queue.last();
+		return queue.last().getElement();
 	}
 
 	@Override

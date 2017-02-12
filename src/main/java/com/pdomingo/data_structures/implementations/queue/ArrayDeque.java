@@ -50,21 +50,21 @@ public class ArrayDeque<T> implements Deque<T> {
 
 	@Override
 	public T removeFirst() {
-		return deque.removeFirst();
+		return deque.removeFirst().getElement();
 	}
 
 	@Override
 	public T removeLast() {
-		return deque.removeLast();
+		return deque.removeLast().getElement();
 	}
 
 	@Override
 	public T first() {
-		return deque.first();
+		return deque.first().getElement();
 	}
 
 	@Override
 	public T last() {
-		return deque.last();
+		return deque.last().getElement();
 	}
 }

@@ -1,5 +1,6 @@
 package com.pdomingo.data_structures.implementations.list;
 
+import com.pdomingo.data_structures.interfaces.Position;
 import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
@@ -8,25 +9,70 @@ import com.pdomingo.data_structures.interfaces.List;
 import java.util.Iterator;
 
 
+/**
+ * List implementation baked by an array
+ *
+ * @param <T>
+ */
 public class ArrayList<T> extends AbstractList<T> {
 
 	private final int DEFAULT_CAPACITY = 16;
 
-	private T[] data;
+	// Baking array
+	private Node<T>[] data;
+
+	// Available size of the array
 	private int capacity;
+
+	// Used size of the array
 	private int size;
+
+	/********************* Nested classes *********************/
 
 	/**
 	 *
+	 * @param <E>
+	 */
+	private static class Node<E> implements Position<E> {
+
+		int index;
+		E item;
+
+		private Node(int index, E item) {
+			this.index = index;
+			this.item = item;
+		}
+
+		public static <E> Node<E> of(int index, E item) {
+			return new Node<>(index, item);
+		}
+
+		@Override
+		public E getElement() {
+			return item;
+		}
+
+		@Override
+		public String toString() {
+			return String.format("Node[%d] - %s", index, item);
+		}
+	}
+
+	/********************* Constructors *********************/
+
+	/**
+	 * Default constructor
 	 */
 	public ArrayList() {
 		reset(DEFAULT_CAPACITY);
 	}
 
 	/**
-	 *
+	 * Builds and ArrayList of the given capacity
+	 * @param capacity requested capacity of the list
+	 * @throws IllegalArgumentException if capacity <= 0
 	 */
-	public ArrayList(int capacity) {
+	public ArrayList(int capacity) throws IllegalArgumentException{
 		if(capacity <= 0)
 			throw new IllegalArgumentException("Invalid capacity " + capacity);
 
@@ -40,6 +86,8 @@ public class ArrayList<T> extends AbstractList<T> {
 		this();
 		this.addAll(items);
 	}
+
+	/********************* Public methods *********************/
 
 	/**
 	 *
@@ -59,7 +107,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		if(size + 1 > capacity)
 			increaseCapacity();
 
-		data[size] = item;
+		data[size] = Node.of(size,item);
 		size++;
 
 		return this;
@@ -68,7 +116,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	@Override
 	public List<T> addFirst(T item) {
 		shiftRight(0);
-		data[0] = item;
+		data[0] = Node.of(0,item);
 		return this;
 	}
 
@@ -78,24 +126,56 @@ public class ArrayList<T> extends AbstractList<T> {
 		return this;
 	}
 
+	@Override
+	public List<T> addAfter(Position<T> position, T item) {
+
+		Node<T> node = node(position);
+		int index = node.index;
+
+		if(index == size - 1) // Node is tail
+			addLast(item);
+		else {
+			shiftRight(index + 1);
+			data[index + 1] = Node.of(index + 1,item);
+		}
+
+		return this;
+	}
+
+	@Override
+	public List<T> addBefore(Position<T> position, T item) {
+
+		Node<T> node = node(position);
+		int index = node.index;
+
+		if(index == 0) // Node is head
+			addFirst(item);
+		else {
+			shiftRight(index - 1);
+			data[index - 1] = Node.of(index - 1,item);
+		}
+
+		return this;
+	}
+
 	/**
 	 *
 	 * @param index
 	 * @return
 	 * @throws IndexOutOfBoundsException
 	 */
-	public T get(int index) throws IndexOutOfBoundsException {
+	public Position<T> get(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 		return data[index];
 	}
 
 	@Override
-	public T first() {
+	public Position<T> first() {
 		return isEmpty() ? null : data[0];
 	}
 
 	@Override
-	public T last() {
+	public Position<T> last() {
 		return isEmpty() ? null : data[size - 1];
 	}
 
@@ -108,8 +188,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	public List<T> put(T item, int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 
-		shiftRight(index);
-		data[index] = item;
+		data[index].item = item;
 		return this;
 	}
 
@@ -119,10 +198,11 @@ public class ArrayList<T> extends AbstractList<T> {
 	 * @return
 	 * @throws IndexOutOfBoundsException
 	 */
-	public T remove(int index) throws IndexOutOfBoundsException {
+	public Position<T> remove(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 
-		T removedItem = data[index];
+		Node<T> removedItem = data[index];
+		removedItem.index = -1;
 		shiftLeft(index);
 
 		if(size < Math.floorDiv(capacity, 2))
@@ -142,7 +222,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		int position = -1;
 
 		for(int idx = 0; idx < size; idx++) {
-			if (data[idx].equals(item)) {
+			if (data[idx].getElement().equals(item)) {
 				position = idx;
 				break;
 			}
@@ -166,18 +246,40 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public T removeFirst() {
-		T item = isEmpty() ? null : first();
+	public Position<T> removeFirst() {
+		Position<T> item = isEmpty() ? null : first();
 		shiftRight(0);
 		return item;
 	}
 
 	@Override
-	public T removeLast() {
-		T item = isEmpty() ? null : last();
+	public Position<T> removeLast() {
+		Position<T> item = isEmpty() ? null : last();
 		data[size - 1] = null;
 		size--;
 		return item;
+	}
+
+	@Override
+	public Position<T> removeNext(Position<T> position) {
+
+		Node<T> node = node(position);
+
+		if(node.index == size - 1) // Node is tail
+			return null;
+		else
+			return remove(node.index + 1);
+	}
+
+	@Override
+	public Position<T> removePrevious(Position<T> position) {
+
+		Node<T> node = node(position);
+
+		if(node.index == 0) // Node is head
+			return null;
+		else
+			return remove(node.index - 1);
 	}
 
 	/**
@@ -185,8 +287,14 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	public void clear() {
 
-		for (int idx = 0; idx < size; idx++)
-			data[idx] = null; // help GC
+		// help GC and invalidate nodes
+		for (int idx = 0; idx < size; idx++) {
+			Node<T> node = node(data[idx]);
+
+			node.index = -1;
+			node.item = null;
+			data[idx] = null;
+		}
 
 		reset(DEFAULT_CAPACITY);
 	}
@@ -198,11 +306,44 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	public boolean contains(T item) {
 		for (int idx = 0; idx < size; idx++) {
-			if(data[idx].equals(item))
+			if(data[idx].getElement().equals(item))
 				return true;
 		}
 		return false;
 	}
+
+	@Override
+	public Iterable<Position<T>> positions() {
+		return new PositionIterable();
+	}
+
+	/**
+	 *
+	 */
+	private class PositionIterable implements Iterable<Position<T>> {
+
+		@Override
+		public Iterator<Position<T>> iterator() {
+			return new Iterator<Position<T>>() {
+
+				private int index = 0;
+
+				@Override
+				public boolean hasNext() {
+					return index < size();
+				}
+
+				@Override
+				public Position<T> next() {
+					Position<T> position = get(index);
+					index++;
+					return position;
+				}
+			};
+		}
+	}
+
+	/********************* Private methods *********************/
 
 	/**
 	 *
@@ -250,16 +391,30 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	private void cloneData(int newCapacity) {
-		T[] newArray = (T[]) new Object[newCapacity];
+		Node<T>[] newArray = (Node<T>[]) new Node[newCapacity];
 		System.arraycopy(data, 0, newArray, 0, newCapacity);
 		data = newArray;
 	}
 
 	@SuppressWarnings("unchecked")
 	private void reset(int capacity) {
-		data = (T[]) new Object[capacity];
+		data = (Node<T>[]) new Node[capacity];
 		this.capacity = capacity;
 		size = 0;
+	}
+
+	private Node<T> node(Position<T> position) throws IllegalArgumentException {
+
+		if( ! (position instanceof Node))
+			throw new IllegalArgumentException("Invalid position");
+
+		// Safe cast
+		Node<T> node = (Node<T>) position;
+
+		if(node.index < 0)
+			throw new IllegalArgumentException("Position is no longer in the list");
+
+		return node;
 	}
 
 	@Override
