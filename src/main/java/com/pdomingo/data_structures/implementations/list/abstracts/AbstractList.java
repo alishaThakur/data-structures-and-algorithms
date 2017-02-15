@@ -11,11 +11,20 @@ import java.util.Iterator;
  */
 public abstract class AbstractList<T> implements List<T> {
 
+	/**
+	 * Checks if the list has elements
+	 * @return true if the list is empty
+	 */
 	@Override
 	public boolean isEmpty() {
 		return size() == 0;
 	}
 
+	/**
+	 * Check if the given items are stored in the list
+	 * @param items to be searched for
+	 * @return if all the items are stored in the list
+	 */
 	@Override
 	public boolean containsAll(Iterable<T> items) {
 		for(T item : items)
@@ -25,6 +34,11 @@ public abstract class AbstractList<T> implements List<T> {
 		return true;
 	}
 
+	/**
+	 * Adds all the items to the list
+	 * @param items to be inserted in the list
+	 * @return the list
+	 */
 	@Override
 	public List<T> addAll(Iterable<T> items) {
 		for(T item : items)
@@ -33,6 +47,11 @@ public abstract class AbstractList<T> implements List<T> {
 		return this;
 	}
 
+	/**
+	 * Removed all the items that match any of the items
+	 * @param items group of items to be matched
+	 * @return the removed items
+	 */
 	@Override
 	public Iterable<T> removeAll(Iterable<T> items) {
 		for(T item : items)

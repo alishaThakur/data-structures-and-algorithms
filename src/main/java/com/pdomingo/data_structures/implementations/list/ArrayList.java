@@ -1,7 +1,6 @@
 package com.pdomingo.data_structures.implementations.list;
 
 import com.pdomingo.data_structures.interfaces.Position;
-import com.pdomingo.exceptions.IndexOutOfBoundsException;
 import com.pdomingo.exceptions.ItemNotFoundException;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
 import com.pdomingo.data_structures.interfaces.List;
@@ -90,17 +89,17 @@ public class ArrayList<T> extends AbstractList<T> {
 	/********************* Public methods *********************/
 
 	/**
-	 *
-	 * @return
+	 * Number of elements stored in the list
+	 * @return size of the list
 	 */
 	public int size() {
 		return size;
 	}
 
 	/**
-	 *
-	 * @param item
-	 * @return
+	 * Appends the item to the end of the list (shortcut for addLast)
+	 * @param item to be inserted
+	 * @return the list
 	 */
 	public List<T> add(T item) {
 
@@ -113,6 +112,11 @@ public class ArrayList<T> extends AbstractList<T> {
 		return this;
 	}
 
+	/**
+	 * Appends the item to the start of the list
+	 * @param item to be inserted
+	 * @return the list
+	 */
 	@Override
 	public List<T> addFirst(T item) {
 		shiftRight(0);
@@ -120,12 +124,24 @@ public class ArrayList<T> extends AbstractList<T> {
 		return this;
 	}
 
+	/**
+	 * Appends the item to the end of the list
+	 * @param item to be inserted
+	 * @return the list
+	 */
 	@Override
 	public List<T> addLast(T item) {
 		add(item);
 		return this;
 	}
 
+	/**
+	 * Add the item after the specified position
+	 * that must be stored in the list
+	 * @param position after the item will be inserted
+	 * @param item to be inserted
+	 * @return the list
+	 */
 	@Override
 	public List<T> addAfter(Position<T> position, T item) {
 
@@ -142,6 +158,13 @@ public class ArrayList<T> extends AbstractList<T> {
 		return this;
 	}
 
+	/**
+	 * Add the item before the specified position
+	 * that must be stored in the list
+	 * @param position before the item will be inserted
+	 * @param item to be inserted
+	 * @return the list
+	 */
 	@Override
 	public List<T> addBefore(Position<T> position, T item) {
 
@@ -159,31 +182,40 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 *
-	 * @param index
-	 * @return
-	 * @throws IndexOutOfBoundsException
+	 * Gets the position stored at the given index
+	 * @param index of the list to search the position for
+	 * @return the position stored at the given index
+	 * @throws IndexOutOfBoundsException if index is not accessible
 	 */
 	public Position<T> get(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 		return data[index];
 	}
 
+	/**
+	 * Gets the first element of the list
+	 * @return the first element of the list or null if the list is empty
+	 */
 	@Override
 	public Position<T> first() {
 		return isEmpty() ? null : data[0];
 	}
 
+	/**
+	 * Gets the last element of the list
+	 * @return the last element of the list or null if the list is empty
+	 */
 	@Override
 	public Position<T> last() {
 		return isEmpty() ? null : data[size - 1];
 	}
 
 	/**
-	 *
-	 * @param index
-	 * @return
-	 * @throws IndexOutOfBoundsException
+	 * Set the value of the position stored at the given index with value
+	 * @param item to be stored
+	 * @param index of the list where to store the given index
+	 * @return the list
+	 * @throws IndexOutOfBoundsException if index is not accessible
 	 */
 	public List<T> put(T item, int index) throws IndexOutOfBoundsException {
 		checkRange(index);
@@ -193,10 +225,10 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 *
-	 * @param index
-	 * @return
-	 * @throws IndexOutOfBoundsException
+	 * Remove the value of the position stored at the given index with value
+	 * @param index of the list where to remove the given index
+	 * @return the list
+	 * @throws IndexOutOfBoundsException if index is not accessible
 	 */
 	public Position<T> remove(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
@@ -212,10 +244,9 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 *
+	 * TODO
 	 * @param item
 	 * @return
-	 * @throws ItemNotFoundException
 	 */
 	private int findItem(T item) {
 
@@ -232,9 +263,9 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 *
-	 * @param item
-	 * @return
+	 * Removes the first item equal to the given item from the list
+	 * @param item to remove from the list
+	 * @return if the item was found and removed from the list
 	 */
 	public boolean remove(T item) {
 		int position = findItem(item);
@@ -245,6 +276,10 @@ public class ArrayList<T> extends AbstractList<T> {
 		return true;
 	}
 
+	/**
+	 * Removes the first position of the list
+	 * @return the removed position
+	 */
 	@Override
 	public Position<T> removeFirst() {
 		Position<T> item = isEmpty() ? null : first();
@@ -252,6 +287,10 @@ public class ArrayList<T> extends AbstractList<T> {
 		return item;
 	}
 
+	/**
+	 * Removes the last position of the list
+	 * @return the removed position
+	 */
 	@Override
 	public Position<T> removeLast() {
 		Position<T> item = isEmpty() ? null : last();
@@ -260,6 +299,11 @@ public class ArrayList<T> extends AbstractList<T> {
 		return item;
 	}
 
+	/**
+	 * Removes the next position to the given parameter
+	 * @param position previous to the element that will be removed
+	 * @return the removed position
+	 */
 	@Override
 	public Position<T> removeNext(Position<T> position) {
 
@@ -271,6 +315,11 @@ public class ArrayList<T> extends AbstractList<T> {
 			return remove(node.index + 1);
 	}
 
+	/**
+	 * Removes the previous position to the given parameter
+	 * @param position next to the element that will be removed
+	 * @return the removed position
+	 */
 	@Override
 	public Position<T> removePrevious(Position<T> position) {
 
@@ -283,7 +332,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 *
+	 * Empty the list
 	 */
 	public void clear() {
 
@@ -300,9 +349,9 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 *
-	 * @param item
-	 * @return
+	 * Check if the given item is stored in the list
+	 * @param item to be searched for
+	 * @return if the item is stored in the list
 	 */
 	public boolean contains(T item) {
 		for (int idx = 0; idx < size; idx++) {
@@ -312,13 +361,17 @@ public class ArrayList<T> extends AbstractList<T> {
 		return false;
 	}
 
+	/**
+	 * Positions of the list in order
+	 * @return the positions stored in the list in order of insertion
+	 */
 	@Override
 	public Iterable<Position<T>> positions() {
 		return new PositionIterable();
 	}
 
 	/**
-	 *
+	 * Positon iterator
 	 */
 	private class PositionIterable implements Iterable<Position<T>> {
 
@@ -346,14 +399,14 @@ public class ArrayList<T> extends AbstractList<T> {
 	/********************* Private methods *********************/
 
 	/**
-	 *
+	 * Duplicates de capacity of the baking array and copies existing data
 	 */
 	private void increaseCapacity() {
 		cloneData(capacity * 2);
 	}
 
 	/**
-	 *
+	 * Halves de capacity of the baking array and copies existing data
 	 */
 	private void decreaseCapacity() {
 		cloneData(Math.floorDiv(capacity, 2));
