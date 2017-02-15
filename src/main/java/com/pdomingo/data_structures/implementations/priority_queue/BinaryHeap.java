@@ -91,9 +91,22 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
 	private void downHeap(Entry<K,V> entry, int index) {
 
+		/* Notas:
+		 * - left y right sirven para calcular la posición que ocuparía
+		 * el node en un arbol completo pero eso no implica que exista,
+		 * de ahí el metodo isValid
+		 *
+		 * - Al realizar swap con el mismo parametro de entrada, permite
+		 * mantener el orden completo dentro del arbol ya que primero se
+		 * hara swap y down-heap recursivamente sobre el hijo izquierdo y
+		 * despues con el derecho por lo que si al hacer swap en una ocasion
+		 * el nodo que sube no cumple con la regla de orden del heap, esta
+		 * regla se restaurará en la siguiente pasada por el lado izquierdo
+		 */
+
+
 		int leftIndex = left(index);
 
-		// Actual entry in index may not exist
 		if(isValid(leftIndex)) {
 
 			Entry<K, V> left = heap.get(leftIndex).getElement();
@@ -151,6 +164,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
 	@Override
 	public String toString() {
+
 		String str = "";
 		for (int idx = 0; idx < heap.size(); idx++) {
 			str += "[" + idx + "]" + heap.get(idx).getElement() + "\n";
@@ -186,34 +200,4 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		return index <= size() - 1;
 	}
 
-	public static void main(String[] args) {
-
-		PriorityQueue<Integer, String> pq = new BinaryHeap<>(Order.MIN);
-		pq.insert(1,"A");
-		pq.insert(2,"C");
-		pq.insert(5,"D");
-		pq.insert(10,"E");
-		pq.insert(4,"F");
-		pq.insert(7,"G");
-		pq.insert(2,"H");
-		pq.insert(5,"I");
-		pq.insert(9,"J");
-		pq.insert(11,"K");
-		System.out.println(pq.toString());
-
-		pq.removeMin();
-		System.out.println(pq.toString());
-		pq.removeMin();
-		System.out.println(pq.toString());
-		pq.removeMin();
-		System.out.println(pq.toString());
-		pq.removeMin();
-		System.out.println(pq.toString());
-		pq.removeMin();
-		System.out.println(pq.toString());
-		pq.removeMin();
-		System.out.println(pq.toString());
-		pq.removeMin();
-		System.out.println(pq.toString());
-	}
 }

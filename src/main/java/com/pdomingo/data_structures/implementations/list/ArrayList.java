@@ -392,8 +392,10 @@ public class ArrayList<T> extends AbstractList<T> {
 	@SuppressWarnings("unchecked")
 	private void cloneData(int newCapacity) {
 		Node<T>[] newArray = (Node<T>[]) new Node[newCapacity];
-		System.arraycopy(data, 0, newArray, 0, newCapacity);
+		System.arraycopy(data, 0, newArray, 0, data.length);
+
 		data = newArray;
+		capacity = newCapacity;
 	}
 
 	@SuppressWarnings("unchecked")
