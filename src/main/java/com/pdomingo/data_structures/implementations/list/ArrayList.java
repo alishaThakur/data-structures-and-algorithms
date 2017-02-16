@@ -1,7 +1,6 @@
 package com.pdomingo.data_structures.implementations.list;
 
 import com.pdomingo.data_structures.interfaces.Position;
-import com.pdomingo.exceptions.ItemNotFoundException;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
 import com.pdomingo.data_structures.interfaces.List;
 
@@ -11,25 +10,25 @@ import java.util.Iterator;
 /**
  * List implementation baked by an array
  *
- * @param <T>
+ * @param <T> type
  */
 public class ArrayList<T> extends AbstractList<T> {
 
 	private final int DEFAULT_CAPACITY = 16;
 
-	// Baking array
+	/* Baking array */
 	private Node<T>[] data;
 
-	// Available size of the array
+	/* Available size of the array */
 	private int capacity;
 
-	// Used size of the array
+	/* Used size of the array */
 	private int size;
 
 	/********************* Nested classes *********************/
 
 	/**
-	 *
+	 * Internal object stored in the array
 	 * @param <E>
 	 */
 	private static class Node<E> implements Position<E> {
@@ -445,7 +444,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	@SuppressWarnings("unchecked")
 	private void cloneData(int newCapacity) {
 		Node<T>[] newArray = (Node<T>[]) new Node[newCapacity];
-		System.arraycopy(data, 0, newArray, 0, data.length);
+		System.arraycopy(data, 0, newArray, 0, size);
 
 		data = newArray;
 		capacity = newCapacity;
@@ -491,7 +490,7 @@ public class ArrayList<T> extends AbstractList<T> {
 
 	@Override
 	protected Object clone() {
-		ArrayList<T> newList = new ArrayList<T>(size);
+		ArrayList<T> newList = new ArrayList<>(size);
 		newList.addAll(this);
 		return newList;
 	}

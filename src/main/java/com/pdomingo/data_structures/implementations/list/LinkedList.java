@@ -22,12 +22,12 @@ public class LinkedList<T> extends AbstractList<T> {
 	 *
 	 * @param <E>
 	 */
-	private class Node<E> implements Position<E> {
+	private static class Node<E> implements Position<E> {
 
 		E item;
 		Node<E> prev, next;
 
-		private Node(E item,Node<E> prev,Node<E> next) {
+		private Node(E item,Node<E> prev, Node<E> next) {
 			this.item = item;
 			this.prev = prev;
 			this.next = next;
@@ -73,7 +73,6 @@ public class LinkedList<T> extends AbstractList<T> {
 	@Override
 	public Position<T> get(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
-
 		return getNodeAt(index);
 	}
 
@@ -105,33 +104,20 @@ public class LinkedList<T> extends AbstractList<T> {
 
 		Node<T> node = getNodeAt(index);
 
-		if(node == head && node == tail) {
-			head = null;
-			tail = null;
-		} else if (node == head) { // Remove head
-			Node<T> newHead = node.next;
+		if (node == head)
+			return removeFirst();
+		if (node == tail)
+			return removeLast();
 
-			node.next = null;
-			newHead.prev = null;
+		// Remove else
+		Node<T> prevNode = node.prev;
+		Node<T> nextNode = node.next;
 
-			head = newHead;
-		} else if (node == tail) { // Remove tail
-			Node<T> newTail = node.prev;
+		prevNode.next = nextNode; // A -> B -> C ==> A -> C
+		nextNode.prev = prevNode; // A <- B <- C ==> A <- C
 
-			node.prev = null;
-			newTail.next = null;
-
-			tail = newTail;
-		} else { // Remove else
-			Node<T> prevNode = node.prev;
-			Node<T> nextNode = node.next;
-
-			prevNode.next = nextNode; // A -> B -> C ==> A -> C
-			nextNode.prev = prevNode; // A <- B <- C ==> A <- C
-
-			node.next = null;
-			node.prev = null;
-		}
+		node.next = null;
+		node.prev = null;
 
 		size--;
 
@@ -151,14 +137,45 @@ public class LinkedList<T> extends AbstractList<T> {
 	@Override
 	public Position<T> removeFirst() {
 
-		// TODO Rehacer
+		if(isEmpty())
+			return null;
+		else {
+			Node<T> currentHead = head;
+			Node<T> newHead = head.next;
 
-		return isEmpty() ? null : remove(0);
+			head.next = null;
+			if(newHead != null)
+				newHead.prev = null;
+			else
+				tail = null;
+
+			head = newHead;
+			size--;
+
+			return currentHead;
+		}
 	}
 
 	@Override
 	public Position<T> removeLast() {
-		return null;
+
+		if(isEmpty())
+			return null;
+		else {
+			Node<T> currentTail = tail;
+			Node<T> newTail = tail.prev;
+
+			tail.prev = null;
+			if(newTail != null)
+				newTail.next = null;
+			else
+				head = null;
+
+			tail = newTail;
+			size--;
+
+			return currentTail;
+		}
 	}
 
 	@Override
@@ -244,9 +261,9 @@ public class LinkedList<T> extends AbstractList<T> {
 		if (isEmpty())
 			addLast(item);
 		else {
-			Node<T> newHead = new Node<>(item, null, null);
+			Node<T> newHead = new Node<>(item, null, head);
+
 			head.prev = newHead; // NH <- H
-			newHead.next = head; // NH <-> H
 			head = newHead;
 			size++;
 		}
@@ -256,17 +273,14 @@ public class LinkedList<T> extends AbstractList<T> {
 
 	public List<T> addLast(T item) {
 
-		Node<T> newTail = new Node<>(item, null, null);
+		Node<T> newTail = new Node<>(item, tail, null);
 
-		if (isEmpty()) {
+		if (isEmpty())
 			head = newTail;
-			tail = newTail;
-		} else {
+		else
 			tail.next = newTail; // T -> NT
-			newTail.prev = tail; // T <-> NT
-			tail = newTail;
-		}
 
+		tail = newTail;
 		size++;
 
 		return this;

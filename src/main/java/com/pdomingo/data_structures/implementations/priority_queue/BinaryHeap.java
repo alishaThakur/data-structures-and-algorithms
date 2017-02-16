@@ -4,8 +4,6 @@ import com.pdomingo.data_structures.implementations.list.ArrayList;
 import com.pdomingo.data_structures.implementations.priority_queue.abstracts.AbstractPriorityQueue;
 import com.pdomingo.data_structures.interfaces.Entry;
 import com.pdomingo.data_structures.interfaces.List;
-import com.pdomingo.data_structures.interfaces.PriorityQueue;
-import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.util.Comparator;
 
@@ -37,16 +35,26 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		this(Order.MAX);
 	}
 
-	public BinaryHeap(Iterable<Entry<K,V>> entries) {
+	public BinaryHeap(List<Entry<K,V>> entries) {
 
-		// TODO
 		super();
-		this.heap = new ArrayList<>();
+		this.heap = new ArrayList<>(entries);
 		this.order = Order.MAX;
+
+		for (int idx = heap.size() - 1; idx > 0 ; idx--) {
+			int parent = parent(idx);
+			downHeap(heap.get(parent).getElement(), parent);
+		}
 	}
 
 	public enum Order {
-		MAX, MIN
+		MAX(1), MIN(-1);
+
+		private final int value;
+
+		Order(int value) {
+			this.value = value;
+		}
 	}
 
 	/*********************************************/
@@ -159,7 +167,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	@Override
 	protected int compare(Entry<K, V> a, Entry<K, V> b) {
 		// Reverse cmp if heap is min
-		return order == Order.MAX ? super.compare(a, b) : -1 * super.compare(a, b);
+		return order.value * super.compare(a, b);
 	}
 
 	@Override
@@ -167,6 +175,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
 		String str = "";
 		for (int idx = 0; idx < heap.size(); idx++) {
+			str += new String(new char[depth(idx)]).replace('\0', '\t');
 			str += "[" + idx + "]" + heap.get(idx).getElement() + "\n";
 		}
 		return str;
@@ -184,15 +193,15 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		b.setValue(value);
 	}
 
-	private int parent(int index) {
+	private static int parent(int index) {
 		return (int) Math.ceil((index - 1) / 2);
 	}
 
-	private int left(int index) {
+	private static int left(int index) {
 		return index * 2 + 1;
 	}
 
-	private int right(int index) {
+	private static int right(int index) {
 		return index * 2 + 2;
 	}
 
@@ -200,4 +209,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		return index <= size() - 1;
 	}
 
+	private static int depth(int index) {
+		return index == 0 ? 0 : 1 + depth(parent(index));
+	}
 }
