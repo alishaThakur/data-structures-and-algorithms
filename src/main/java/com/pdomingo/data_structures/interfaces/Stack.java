@@ -5,11 +5,22 @@ package com.pdomingo.data_structures.interfaces;
  */
 public interface Stack<T> extends Iterable<T> {
 
+	/**
+	 * Number of elements stored in the stack
+	 * @return size of the stack
+	 */
 	int size();
 
-	void clear();
-
+	/**
+	 * Checks if the stack has elements
+	 * @return true if the stack is empty
+	 */
 	boolean isEmpty();
+
+	/**
+	 * Empty the stack
+	 */
+	void clear();
 
 	void push(T item);
 

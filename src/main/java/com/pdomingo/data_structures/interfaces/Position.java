@@ -1,10 +1,15 @@
 package com.pdomingo.data_structures.interfaces;
 
 /**
- * Created by Pablo on 26/1/17.
+ *
+ * @param <T>
  */
 public interface Position<T> {
 
+	/**
+	 * Gets the element stored in the position
+	 * @return the element
+	 */
 	T getElement();
 
 }

@@ -36,6 +36,21 @@ public class LinkedPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 		return queue.size();
 	}
 
+	/**
+	 * Empty the priority queue
+	 */
+	@Override
+	public void clear() {
+
+		for (Position<Entry<K,V>> position : queue.positions()) {
+			Entry<K,V> entry = position.getElement();
+			entry.setValue(null);
+			entry.setValue(null);
+		}
+
+		queue.clear();;
+	}
+
 	@Override
 	public Entry<K, V> insert(K key, V value) throws IllegalArgumentException {
 

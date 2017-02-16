@@ -39,13 +39,15 @@ public class ArrayDeque<T> implements Deque<T> {
 	}
 
 	@Override
-	public void addFirst(T item) {
+	public Deque<T> addFirst(T item) {
 		deque.addFirst(item);
+		return this;
 	}
 
 	@Override
-	public void addLast(T item) {
+	public Deque<T> addLast(T item) {
 		deque.addLast(item);
+		return this;
 	}
 
 	@Override

@@ -124,6 +124,17 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 		return size;
 	}
 
+	/**
+	 * Empty the deque
+	 */
+	@Override
+	public void clear() {
+		for(Position<T> position : positions())
+			binaryNode(position).delete();
+
+		size = 0;
+	}
+
 	@Override
 	public int depth(Position<T> position) {
 

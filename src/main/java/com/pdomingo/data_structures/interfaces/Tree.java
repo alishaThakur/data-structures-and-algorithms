@@ -5,7 +5,22 @@ package com.pdomingo.data_structures.interfaces;
  */
 public interface Tree<T> extends Iterable<T> {
 
+	/**
+	 * Number of elements stored in the tree
+	 * @return size of the tree
+	 */
+	int size();
+
+	/**
+	 * Checks if the tree has elements
+	 * @return true if the tree is empty
+	 */
 	boolean isEmpty();
+
+	/**
+	 * Empty the tree
+	 */
+	void clear();
 
 	Position<T> root();
 
@@ -18,8 +33,6 @@ public interface Tree<T> extends Iterable<T> {
 	boolean isRoot(Position<T> position);
 
 	boolean isLeaf(Position<T> position);
-
-	int size();
 
 	int depth(Position<T> position);
 
