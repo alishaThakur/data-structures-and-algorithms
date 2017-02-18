@@ -15,20 +15,17 @@ import java.util.Comparator;
 public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
 	private List<Entry<K,V>> heap;
-	private Order order;
 
 	/*********************************************/
 
-	public BinaryHeap(Comparator<K> comparator) {
-		super(comparator);
+	public BinaryHeap(Comparator<K> comparator, Order order) {
+		super(comparator, order);
 		this.heap = new ArrayList<>();
-		this.order = Order.MAX;
 	}
 
 	public BinaryHeap(Order order) {
-		super();
+		super(order);
 		this.heap = new ArrayList<>();
-		this.order = order;
 	}
 
 	public BinaryHeap() {
@@ -37,23 +34,11 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
 	public BinaryHeap(List<Entry<K,V>> entries) {
 
-		super();
-		this.heap = new ArrayList<>(entries);
-		this.order = Order.MAX;
+		this();
 
 		for (int idx = heap.size() - 1; idx > 0 ; idx--) {
 			int parent = parent(idx);
 			downHeap(heap.get(parent).getElement(), parent);
-		}
-	}
-
-	public enum Order {
-		MAX(1), MIN(-1);
-
-		private final int value;
-
-		Order(int value) {
-			this.value = value;
 		}
 	}
 
@@ -62,6 +47,19 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	@Override
 	public int size() {
 		return heap.size();
+	}
+
+	/**
+	 * Empty the priority queue
+	 */
+	@Override
+	public void clear() {
+		for (Entry<K,V> entry : heap) {
+			entry.setKey(null);
+			entry.setValue(null);
+		}
+
+		heap.clear();
 	}
 
 	@Override
@@ -79,13 +77,13 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	}
 
 	@Override
-	public Entry<K,V> min() {
+	public Entry<K,V> first() {
 		return heap.first().getElement();
 	}
 
 	@Override
-	public Entry<K,V> removeMin() {
-		Entry<K,V> min = min();
+	public Entry<K,V> removeFirst() {
+		Entry<K,V> first = first();
 
 		if(size() > 2) {
 			Entry<K,V> last = heap.removeLast().getElement();
@@ -94,7 +92,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 			downHeap(last, 0);
 		}
 
-		return min;
+		return first;
 	}
 
 	private void downHeap(Entry<K,V> entry, int index) {
@@ -165,12 +163,6 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	}
 
 	@Override
-	protected int compare(Entry<K, V> a, Entry<K, V> b) {
-		// Reverse cmp if heap is min
-		return order.value * super.compare(a, b);
-	}
-
-	@Override
 	public String toString() {
 
 		String str = "";
@@ -209,7 +201,15 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		return index <= size() - 1;
 	}
 
+	/**
+	 * Depth of the node expected to be at the given index
+	 * As a heap is a complete binary tree, the the of an index
+	 * can be calculated as if that index would be the size - 1
+	 * of the tree
+	 * @param index
+	 * @return
+	 */
 	private static int depth(int index) {
-		return index == 0 ? 0 : 1 + depth(parent(index));
+		return (int) Math.abs(Math.log(index + 1) / log2);
 	}
 }

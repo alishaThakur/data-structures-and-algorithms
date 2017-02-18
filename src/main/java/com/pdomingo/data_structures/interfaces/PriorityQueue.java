@@ -24,7 +24,7 @@ public interface PriorityQueue<K,V> {
 
 	Entry<K,V> insert(K key, V value) throws IllegalArgumentException;
 
-	Entry<K,V> min();
+	Entry<K,V> first();
 
-	Entry<K,V> removeMin();
+	Entry<K,V> removeFirst();
 }

@@ -26,7 +26,7 @@ public interface Queue<T> extends Iterable<T> {
 
 	void enqueueAll(Iterable<T> items);
 
-	T queueue();
+	T dequeue();
 
 	T peek();
 }

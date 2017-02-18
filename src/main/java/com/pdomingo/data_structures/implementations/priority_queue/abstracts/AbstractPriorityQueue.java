@@ -11,13 +11,25 @@ import java.util.Comparator;
 public abstract class AbstractPriorityQueue<K,V> implements PriorityQueue<K,V> {
 
 	private Comparator<K> comparator;
+	private Order order;
+
+	public static final double log2 = Math.log(2);
+
+	protected AbstractPriorityQueue(Comparator<K> comparator, Order order) {
+		this.comparator = comparator;
+		this.order = order;
+	}
 
 	protected AbstractPriorityQueue(Comparator<K> comparator) {
-		this.comparator = comparator;
+		this(comparator, Order.MAX);
+	}
+
+	protected AbstractPriorityQueue(Order order) {
+		this(new DefaultComparator<>(), order);
 	}
 
 	protected AbstractPriorityQueue() {
-		this(new DefaultComparator<>());
+		this(new DefaultComparator<>(), Order.MAX);
 	}
 
 	/**
@@ -65,8 +77,19 @@ public abstract class AbstractPriorityQueue<K,V> implements PriorityQueue<K,V> {
 		}
 	}
 
+	protected enum Order {
+		MAX(1), MIN(-1);
+
+		private final int value;
+
+		Order(int value) {
+			this.value = value;
+		}
+	}
+
 	protected int compare(Entry<K,V> a, Entry<K,V> b) {
-		return comparator.compare(a.getKey(), b.getKey());
+		// Reverse cmp if heap is first
+		return order.value * comparator.compare(a.getKey(), b.getKey());
 	}
 
 	protected static class DefaultComparator<K> implements Comparator<K> {

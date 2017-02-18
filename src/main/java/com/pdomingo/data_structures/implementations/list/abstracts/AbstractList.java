@@ -1,7 +1,7 @@
 package com.pdomingo.data_structures.implementations.list.abstracts;
 
 import com.pdomingo.data_structures.interfaces.Position;
-import com.pdomingo.exceptions.IndexOutOfBoundsException;
+import java.lang.IndexOutOfBoundsException;
 import com.pdomingo.data_structures.interfaces.List;
 
 import java.util.Iterator;

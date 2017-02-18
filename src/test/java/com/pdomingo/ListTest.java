@@ -1,6 +1,6 @@
 package com.pdomingo;
 
-import com.pdomingo.exceptions.IndexOutOfBoundsException;
+import java.lang.IndexOutOfBoundsException;
 import com.pdomingo.data_structures.implementations.list.ArrayList;
 import com.pdomingo.data_structures.implementations.list.LinkedList;
 import com.pdomingo.data_structures.interfaces.List;

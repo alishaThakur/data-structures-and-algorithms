@@ -42,13 +42,12 @@ public class LinkedPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	@Override
 	public void clear() {
 
-		for (Position<Entry<K,V>> position : queue.positions()) {
-			Entry<K,V> entry = position.getElement();
+		for (Entry<K,V> entry : queue) {
 			entry.setValue(null);
 			entry.setValue(null);
 		}
 
-		queue.clear();;
+		queue.clear();
 	}
 
 	@Override
@@ -83,12 +82,12 @@ public class LinkedPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	}
 
 	@Override
-	public Entry<K, V> min() {
+	public Entry<K, V> first() {
 		return queue.first().getElement();
 	}
 
 	@Override
-	public Entry<K, V> removeMin() {
+	public Entry<K, V> removeFirst() {
 		return queue.removeFirst().getElement();
 	}
 }
