@@ -189,6 +189,20 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
+	public void swap(int aIndex, int bIndex) {
+		checkRange(aIndex);
+		checkRange(bIndex);
+
+		Node<T> nodeA = getNodeAt(aIndex);
+		Node<T> nodeB = getNodeAt(bIndex);
+
+		T itemA = nodeA.item;
+
+		nodeA.item = nodeB.item;
+		nodeB.item = itemA;
+	}
+
+	@Override
 	public void clear() {
 
 		for(Node<T> node = head; node != null; node = node.next) {

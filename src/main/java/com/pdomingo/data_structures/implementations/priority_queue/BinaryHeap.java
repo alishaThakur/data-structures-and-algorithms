@@ -8,13 +8,22 @@ import com.pdomingo.data_structures.interfaces.List;
 import java.util.Comparator;
 
 /**
+ * <h4>Complexity summary</h4>
+ * <table>
+ *      <thead>
+ *          <td>Method</td><td>Complexity</td>
+ *      </thead>
+ *      <tr>
+ *          <td>{@link AbstractPriorityQueue#size()}</td><td>O(1)</td>
+ *      </tr>
+ * </table>
  *
  * @param <K>
  * @param <V>
  */
 public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
-	private List<Entry<K,V>> heap;
+	protected List<Entry<K,V>> heap;
 
 	/*********************************************/
 
@@ -95,7 +104,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		return first;
 	}
 
-	private void downHeap(Entry<K,V> entry, int index) {
+	protected void downHeap(Entry<K,V> entry, int index) {
 
 		/* Notas:
 		 * - left y right sirven para calcular la posición que ocuparía
@@ -110,7 +119,6 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		 * regla se restaurará en la siguiente pasada por el lado izquierdo
 		 */
 
-
 		int leftIndex = left(index);
 
 		if(isValid(leftIndex)) {
@@ -120,9 +128,11 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 			int cmp = compare(entry, left);
 
 			if (cmp < 0) {
-				swap(entry, left);
+				//swap(entry, left);
+				swap(index, leftIndex);
+
 				// entry has scale down and it's on his left child position
-				downHeap(left, leftIndex);
+				downHeap(entry, leftIndex);
 			}
 		}
 
@@ -137,14 +147,16 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 			int cmp = compare(entry, right);
 
 			if(cmp < 0) {
-				swap(entry, right);
+				//swap(entry, right);
+				swap(index, rightIndex);
+
 				// entry has scale down and it's on his right child position
-				downHeap(right, rightIndex);
+				downHeap(entry, rightIndex);
 			}
 		}
 	}
 
-	private void upHeap(Entry<K,V> entry, int index) {
+	protected void upHeap(Entry<K,V> entry, int index) {
 
 		// Heap-order property is implicitly respected
 		if(size() < 2)
@@ -156,9 +168,11 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		int cmp = compare(entry, parent);
 
 		if(cmp > 0) {
-			swap(entry, parent);
+			//swap(entry, parent);
+			swap(index, parentIndex);
+
 			// entry has scale up and it's on his parent's position
-			upHeap(parent, parentIndex);
+			upHeap(entry, parentIndex);
 		}
 	}
 
@@ -173,31 +187,24 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		return str;
 	}
 
-	private void swap(Entry<K, V> a, Entry<K, V> b) {
-
-		K key = a.getKey();
-		V value = a.getValue();
-
-		a.setKey(b.getKey());
-		a.setValue(b.getValue());
-
-		b.setKey(key);
-		b.setValue(value);
+	protected void swap(int aIndex, int bIndex) {
+		if(isValid(aIndex) && isValid(bIndex))
+			swap(aIndex, bIndex);
 	}
 
-	private static int parent(int index) {
+	protected static int parent(int index) {
 		return (int) Math.ceil((index - 1) / 2);
 	}
 
-	private static int left(int index) {
+	protected static int left(int index) {
 		return index * 2 + 1;
 	}
 
-	private static int right(int index) {
+	protected static int right(int index) {
 		return index * 2 + 2;
 	}
 
-	private boolean isValid(int index) {
+	protected boolean isValid(int index) {
 		return index <= size() - 1;
 	}
 
@@ -209,7 +216,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	 * @param index
 	 * @return
 	 */
-	private static int depth(int index) {
+	protected static int depth(int index) {
 		return (int) Math.abs(Math.log(index + 1) / log2);
 	}
 }

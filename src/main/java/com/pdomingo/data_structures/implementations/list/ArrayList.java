@@ -330,6 +330,24 @@ public class ArrayList<T> extends AbstractList<T> {
 			return remove(node.index - 1);
 	}
 
+	@Override
+	public void swap(int indexA, int indexB) {
+
+		checkRange(indexA);
+		checkRange(indexB);
+
+		Node<T> nodeA = node(get(indexA));
+		Node<T> nodeB = node(get(indexB));
+
+		T itemA = nodeA.item;
+
+		nodeA.item = nodeB.item;
+		nodeA.index = nodeB.index;
+
+		nodeB.item = itemA;
+		nodeB.index = indexA;
+	}
+
 	/**
 	 * Empty the list
 	 */

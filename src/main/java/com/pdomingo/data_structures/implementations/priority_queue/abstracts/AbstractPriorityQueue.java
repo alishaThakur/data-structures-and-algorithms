@@ -10,8 +10,8 @@ import java.util.Comparator;
  */
 public abstract class AbstractPriorityQueue<K,V> implements PriorityQueue<K,V> {
 
-	private Comparator<K> comparator;
-	private Order order;
+	protected Comparator<K> comparator;
+	protected Order order;
 
 	public static final double log2 = Math.log(2);
 
@@ -46,7 +46,7 @@ public abstract class AbstractPriorityQueue<K,V> implements PriorityQueue<K,V> {
 			return new PQEntry<>(key, value);
 		}
 
-		private PQEntry(K key, V value) {
+		protected PQEntry(K key, V value) {
 			this.key = key;
 			this.value = value;
 		}

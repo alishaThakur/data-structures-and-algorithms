@@ -29,6 +29,10 @@ public class TraversalStrategies {
 		return new InOrderTraversal<>();
 	}
 
+	private TraversalStrategies() {
+		throw new UnsupportedOperationException("Non instanciable");
+	}
+
 	/********************* Nested classes *********************/
 
 	/**
