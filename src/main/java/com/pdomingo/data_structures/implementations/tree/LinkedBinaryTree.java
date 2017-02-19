@@ -11,13 +11,32 @@ import java.util.Iterator;
 
 
 /**
- * Created by Pablo on 26/1/17.
+ *
+ * @param <T>
+ *
+ * <h4>Complexity summary</h4>
+ * <table>
+ *      <thead>
+ *          <td>Method</td><td>Worst Case Complexity</td>
+ *      </thead>
+ *      <tr><td>{@link LinkedBinaryTree#size()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedBinaryTree#isEmpty()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedBinaryTree#clear()}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedBinaryTree#left(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedBinaryTree#right(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedBinaryTree#sibling(Position)}</td><td>O(1)</td></tr>
+ *
+ * </table>
  */
 public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 
 	private BinaryNode<T> root;
 	private int size;
 
+	/**
+	 *
+	 * @param <T>
+	 */
 	private static class BinaryNode<T> implements Position<T> {
 
 		private BinaryNode<T> parent;

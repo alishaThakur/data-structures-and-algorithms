@@ -10,7 +10,38 @@ import com.pdomingo.data_structures.interfaces.List;
 import java.util.Iterator;
 
 /**
- * Created by Pablo on 20/12/16.
+ *
+ *
+ * @param T type
+ *
+ * <h4>Complexity summary</h4>
+ * <table>
+ *      <thead>
+ *          <td>Method</td><td>Complexity</td>
+ *      </thead>
+ *      <tr><td>{@link CircularList#size()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#isEmpty()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#add(Object)}</td><td>O(1) * amortizado</td></tr>
+ *      <tr><td>{@link CircularList#addFirst(Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#addLast(Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#addAfter(Position, Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#addBefore(Position, Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#addAll(Iterable)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link CircularList#get(int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#put(Object, int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#remove(int)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link CircularList#last()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#removeFirst()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#removeLast()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#removeNext(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#removePrevious(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#removeAll(Iterable)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link CircularList#swap(int, int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#clear()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link CircularList#contains(Object)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link CircularList#contains(Object)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link CircularList#positions()}</td><td>O(1)</td></tr>
+ * </table>
  */
 public class CircularList<T> extends AbstractList<T> {
 
@@ -185,6 +216,24 @@ public class CircularList<T> extends AbstractList<T> {
 	@Override
 	public Position<T> removePrevious(Position<T> position) {
 		return null;
+	}
+
+	@Override
+	public void swap(int indexA, int indexB) {
+
+		/*
+		checkRange(indexA);
+		checkRange(indexB);
+
+
+		Node<T> nodeA = node(get(indexA));
+		Node<T> nodeB = node(get(indexB));
+
+		T itemA = nodeA.item;
+
+		nodeA.item = nodeB.item;
+		nodeB.item = itemA;
+		*/
 	}
 
 	@Override

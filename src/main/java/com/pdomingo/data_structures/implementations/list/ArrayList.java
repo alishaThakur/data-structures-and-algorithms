@@ -11,6 +11,35 @@ import java.util.Iterator;
  * List implementation baked by an array
  *
  * @param <T> type
+ *
+ * <h4>Complexity summary</h4>
+ * <table>
+ *      <thead>
+ *          <td>Method</td><td>Complexity</td>
+ *      </thead>
+ *      <tr><td>{@link ArrayList#size()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#isEmpty()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#add(Object)}</td><td>O(1) * amortizado</td></tr>
+ *      <tr><td>{@link ArrayList#addFirst(Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#addLast(Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#addAfter(Position, Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#addBefore(Position, Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#addAll(Iterable)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link ArrayList#get(int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#put(Object, int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#remove(int)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link ArrayList#last()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#removeFirst()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#removeLast()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#removeNext(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#removePrevious(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#removeAll(Iterable)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link ArrayList#swap(int, int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#clear()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#contains(Object)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link ArrayList#contains(Object)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link ArrayList#positions()}</td><td>O(1)</td></tr>
+ * </table>
  */
 public class ArrayList<T> extends AbstractList<T> {
 

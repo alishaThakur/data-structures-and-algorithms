@@ -141,7 +141,7 @@ public interface List<T> extends Iterable<T>, Cloneable {
 	 */
 	Iterable<T> removeAll(Iterable<T> items);
 
-	void swap(int aIndex, int bIndex);
+	void swap(int indexA, int indexB);
 
 	/**
 	 * Empty the list

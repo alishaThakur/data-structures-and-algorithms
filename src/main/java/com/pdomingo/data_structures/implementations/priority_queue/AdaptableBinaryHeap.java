@@ -6,27 +6,24 @@ import com.pdomingo.data_structures.interfaces.Entry;
 /**
  * Priority Queue designed to...
  *
+ * @param <K> key
+ * @param <V> value
+ *
  * <h4>Complexity summary</h4>
  * <table>
  *      <thead>
- *          <td>Method</td><td>Complexity</td>
+ *          <td>Method</td><td>Worst Case Complexity</td>
  *      </thead>
- *      <tr>
- *          <td>{@link AdaptablePriorityQueue#insert(Object, Object)}</td><td>O(log<sub>2</sub>(n))</td>
- *      </tr>
- *      <tr>
- *          <td>{@link AdaptablePriorityQueue#replaceKey(Entry, Object)}</td><td>O(log<sub>2</sub>(n))</td>
- *      </tr>
- *      <tr>
- *          <td>{@link AdaptablePriorityQueue#replaceValue(Entry, Object)}</td><td>O(1)</td>
- *      </tr>
- *      <tr>
- *          <td>{@link AdaptablePriorityQueue#remove(Entry)}</td><td>O(log<sub>2</sub>(n))</td>
- *      </tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#size()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#isEmpty()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#clear()}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#insert(Object, Object)}</td><td>O(log<sub>2</sub>n)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#first()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#removeFirst()}</td><td>O(log<sub>2</sub>n)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#remove(Entry)}</td><td>O(log<sub>2</sub>n)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#replaceKey(Entry, Object)}</td><td>O(log<sub>2</sub>n)</td></tr>
+ *      <tr><td>{@link AdaptableBinaryHeap#replaceValue(Entry, Object)}</td><td>O(1)</td></tr>
  * </table>
- *
- * @param <K> key
- * @param <V> value
  */
 public class AdaptableBinaryHeap<K,V>
 		extends BinaryHeap<K,V>
@@ -122,13 +119,13 @@ public class AdaptableBinaryHeap<K,V>
 
 
 	@Override
-	protected void swap(int aIndex, int bIndex) {
+	protected void swap(int indexA, int indexB) {
 
-		LocationAwarePQEntry<K,V> aEntry = LAentry(heap.get(aIndex).getElement());
-		LocationAwarePQEntry<K,V> bEntry = LAentry(heap.get(bIndex).getElement());
+		LocationAwarePQEntry<K,V> aEntry = LAentry(heap.get(indexA).getElement());
+		LocationAwarePQEntry<K,V> bEntry = LAentry(heap.get(indexB).getElement());
 
-		bEntry.setIndex(aIndex);
-		aEntry.setIndex(bIndex);
+		bEntry.setIndex(indexA);
+		aEntry.setIndex(indexB);
 
 		super.swap(aEntry.index, bEntry.index);
 	}

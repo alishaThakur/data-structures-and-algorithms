@@ -10,6 +10,36 @@ import java.util.Iterator;
 /**
  *
  * @param <T>
+ *
+ * <h4>Complexity summary</h4>
+ * <table>
+ *      <thead>
+ *          <td>Method</td><td>Complexity</td>
+ *      </thead>
+ *      <tr><td>{@link LinkedList#size()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#isEmpty()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#add(Object)}</td><td>O(1) * amortizado</td></tr>
+ *      <tr><td>{@link LinkedList#addFirst(Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#addLast(Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#addAfter(Position, Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#addBefore(Position, Object)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#addAll(Iterable)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedList#get(int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#put(Object, int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#remove(int)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedList#last()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#removeFirst()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#removeLast()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#removeNext(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#removePrevious(Position)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#removeAll(Iterable)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedList#swap(int, int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#clear()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link LinkedList#contains(Object)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedList#contains(Object)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedList#positions()}</td><td>O(1)</td></tr>
+ * </table>
+ *
  */
 public class LinkedList<T> extends AbstractList<T> {
 
@@ -189,12 +219,12 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public void swap(int aIndex, int bIndex) {
-		checkRange(aIndex);
-		checkRange(bIndex);
+	public void swap(int indexA, int indexB) {
+		checkRange(indexA);
+		checkRange(indexB);
 
-		Node<T> nodeA = getNodeAt(aIndex);
-		Node<T> nodeB = getNodeAt(bIndex);
+		Node<T> nodeA = getNodeAt(indexA);
+		Node<T> nodeB = getNodeAt(indexB);
 
 		T itemA = nodeA.item;
 

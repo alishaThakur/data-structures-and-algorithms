@@ -8,18 +8,22 @@ import com.pdomingo.data_structures.interfaces.List;
 import java.util.Comparator;
 
 /**
- * <h4>Complexity summary</h4>
- * <table>
- *      <thead>
- *          <td>Method</td><td>Complexity</td>
- *      </thead>
- *      <tr>
- *          <td>{@link AbstractPriorityQueue#size()}</td><td>O(1)</td>
- *      </tr>
- * </table>
  *
  * @param <K>
  * @param <V>
+ *
+ * <h4>Complexity summary</h4>
+ * <table>
+ *      <thead>
+ *          <td>Method</td><td>Worst Case Complexity</td>
+ *      </thead>
+ *      <tr><td>{@link BinaryHeap#size()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link BinaryHeap#isEmpty()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link BinaryHeap#clear()}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link BinaryHeap#insert(Object, Object)}</td><td>O(log<sub>2</sub>n)</td></tr>
+ *      <tr><td>{@link BinaryHeap#first()}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link BinaryHeap#removeFirst()}</td><td>O(log<sub>2</sub>n)</td></tr>
+ * </table>
  */
 public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 
@@ -44,6 +48,7 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	public BinaryHeap(List<Entry<K,V>> entries) {
 
 		this();
+		this.heap = new ArrayList<>(entries);
 
 		for (int idx = heap.size() - 1; idx > 0 ; idx--) {
 			int parent = parent(idx);
@@ -187,9 +192,9 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 		return str;
 	}
 
-	protected void swap(int aIndex, int bIndex) {
-		if(isValid(aIndex) && isValid(bIndex))
-			swap(aIndex, bIndex);
+	protected void swap(int indexA, int indexB) {
+		if(isValid(indexA) && isValid(indexB))
+			swap(indexA, indexB);
 	}
 
 	protected static int parent(int index) {
