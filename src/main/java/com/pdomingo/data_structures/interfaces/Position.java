@@ -1,8 +1,10 @@
 package com.pdomingo.data_structures.interfaces;
 
 /**
- *
- * @param <T>
+ * Simple interface to allow accesing the data stored in a data structure without
+ * leaking the internal structure/interfaces use by the element that stores the
+ * data
+ * @param <T> thype
  */
 public interface Position<T> {
 

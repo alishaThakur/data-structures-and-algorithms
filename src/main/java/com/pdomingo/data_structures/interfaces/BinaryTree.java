@@ -1,8 +1,9 @@
 package com.pdomingo.data_structures.interfaces;
 
 /**
- *
- * @param <T>
+ * Binary specialization for the general n-ary tree
+ * Every node must have (0...2] nodes as childs.
+ * @param <T> type
  */
 public interface BinaryTree<T> extends Tree<T> {
 

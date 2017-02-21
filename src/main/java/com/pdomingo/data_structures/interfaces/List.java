@@ -141,6 +141,11 @@ public interface List<T> extends Iterable<T>, Cloneable {
 	 */
 	Iterable<T> removeAll(Iterable<T> items);
 
+	/**
+	 * Swap the values of positions locates at indices A and B
+	 * @param indexA index of one element to swap
+	 * @param indexB index of other element to swap
+	 */
 	void swap(int indexA, int indexB);
 
 	/**

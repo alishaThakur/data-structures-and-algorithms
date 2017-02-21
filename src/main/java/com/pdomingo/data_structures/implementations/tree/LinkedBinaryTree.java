@@ -229,17 +229,23 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 
 	public void prune(Position<T> position) {
 
+		/*
+		Notes: After deleting recursively the left subtree, delete the 'root' node of the subree
+		 */
+
 		if(position == null)
 			return;
 
 		BinaryNode<T> node = binaryNode(position);
 
+		// Prune left sutree
 		if(node.hasLeft()) {
 			prune(node.left);
 			node.left.delete();
 			size--;
 		}
 
+		// Prune right sutree
 		if(node.hasRight()) {
 			prune(node.right);
 			node.right.delete();

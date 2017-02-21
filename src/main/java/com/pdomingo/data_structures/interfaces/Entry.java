@@ -1,7 +1,9 @@
 package com.pdomingo.data_structures.interfaces;
 
 /**
- * Created by Pablo on 9/2/17.
+ * Wrapper interface to hold a key and a value
+ * @param <K> key
+ * @param <V> value
  */
 public interface Entry<K,V> {
 

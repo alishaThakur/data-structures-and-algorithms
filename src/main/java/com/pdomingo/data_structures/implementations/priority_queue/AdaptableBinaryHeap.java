@@ -124,9 +124,11 @@ public class AdaptableBinaryHeap<K,V>
 		LocationAwarePQEntry<K,V> aEntry = LAentry(heap.get(indexA).getElement());
 		LocationAwarePQEntry<K,V> bEntry = LAentry(heap.get(indexB).getElement());
 
+		// swap indices
 		bEntry.setIndex(indexA);
 		aEntry.setIndex(indexB);
 
+		// swar PQEntry values
 		super.swap(aEntry.index, bEntry.index);
 	}
 
