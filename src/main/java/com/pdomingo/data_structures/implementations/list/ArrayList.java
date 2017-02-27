@@ -3,7 +3,6 @@ package com.pdomingo.data_structures.implementations.list;
 import com.pdomingo.data_structures.interfaces.Position;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
 import com.pdomingo.data_structures.interfaces.List;
-
 import java.util.Iterator;
 
 
@@ -27,7 +26,8 @@ import java.util.Iterator;
  *      <tr><td>{@link ArrayList#addAll(Iterable)}</td><td>O(n)</td></tr>
  *      <tr><td>{@link ArrayList#get(int)}</td><td>O(1)</td></tr>
  *      <tr><td>{@link ArrayList#put(Object, int)}</td><td>O(1)</td></tr>
- *      <tr><td>{@link ArrayList#remove(int)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link ArrayList#removeByIndex(int)}</td><td>O(1)</td></tr>
+ *      <tr><td>{@link ArrayList#removeByItem(Object)}</td><td>O(n)</td></tr>
  *      <tr><td>{@link ArrayList#last()}</td><td>O(1)</td></tr>
  *      <tr><td>{@link ArrayList#removeFirst()}</td><td>O(1)</td></tr>
  *      <tr><td>{@link ArrayList#removeLast()}</td><td>O(1)</td></tr>
@@ -43,8 +43,6 @@ import java.util.Iterator;
  */
 public class ArrayList<T> extends AbstractList<T> {
 
-	private final int DEFAULT_CAPACITY = 16;
-
 	/* Baking array */
 	private Node<T>[] data;
 
@@ -53,6 +51,9 @@ public class ArrayList<T> extends AbstractList<T> {
 
 	/* Used size of the array */
 	private int size;
+
+	private static final int DEFAULT_CAPACITY = 16;
+	private static final int INVALID = -1;
 
 	/********************* Nested classes *********************/
 
@@ -77,6 +78,11 @@ public class ArrayList<T> extends AbstractList<T> {
 		@Override
 		public E getElement() {
 			return item;
+		}
+
+		public void delete() {
+			index = INVALID;
+			item = null;
 		}
 
 		@Override
@@ -147,8 +153,12 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	@Override
 	public List<T> addFirst(T item) {
+
 		shiftRight(0);
+
 		data[0] = Node.of(0,item);
+		size++;
+
 		return this;
 	}
 
@@ -176,12 +186,11 @@ public class ArrayList<T> extends AbstractList<T> {
 		Node<T> node = node(position);
 		int index = node.index;
 
-		if(index == size - 1) // Node is tail
-			addLast(item);
-		else {
-			shiftRight(index + 1);
-			data[index + 1] = Node.of(index + 1,item);
-		}
+		checkRange(index);
+
+		shiftRight(index + 1);
+		data[index + 1] = Node.of(index + 1,item);
+		size++;
 
 		return this;
 	}
@@ -199,12 +208,11 @@ public class ArrayList<T> extends AbstractList<T> {
 		Node<T> node = node(position);
 		int index = node.index;
 
-		if(index == 0) // Node is head
-			addFirst(item);
-		else {
-			shiftRight(index - 1);
-			data[index - 1] = Node.of(index - 1,item);
-		}
+		checkRange(index);
+
+		shiftRight(index);
+		data[index] = Node.of(index,item);
+		size++;
 
 		return this;
 	}
@@ -254,16 +262,17 @@ public class ArrayList<T> extends AbstractList<T> {
 
 	/**
 	 * Remove the value of the position stored at the given index with value
-	 * @param index of the list where to remove the given index
+	 * @param index of the list where to removeByIndex the given index
 	 * @return the list
 	 * @throws IndexOutOfBoundsException if index is not accessible
 	 */
-	public Position<T> remove(int index) throws IndexOutOfBoundsException {
+	public Position<T> removeByIndex(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
 
 		Node<T> removedItem = data[index];
-		removedItem.index = -1;
+		removedItem.index = INVALID;
 		shiftLeft(index);
+		size--;
 
 		if(size < Math.floorDiv(capacity, 2))
 			decreaseCapacity();
@@ -292,15 +301,15 @@ public class ArrayList<T> extends AbstractList<T> {
 
 	/**
 	 * Removes the first item equal to the given item from the list
-	 * @param item to remove from the list
+	 * @param item to removeByIndex from the list
 	 * @return if the item was found and removed from the list
 	 */
-	public boolean remove(T item) {
+	public boolean removeByItem(T item) {
 		int position = findItem(item);
 		if(position == -1)
 			return false;
 
-		remove(position);
+		removeByIndex(position);
 		return true;
 	}
 
@@ -310,9 +319,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	@Override
 	public Position<T> removeFirst() {
-		Position<T> item = isEmpty() ? null : first();
-		shiftRight(0);
-		return item;
+		return isEmpty() ? null : removeByIndex(0);
 	}
 
 	/**
@@ -321,10 +328,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	@Override
 	public Position<T> removeLast() {
-		Position<T> item = isEmpty() ? null : last();
-		data[size - 1] = null;
-		size--;
-		return item;
+		return isEmpty() ? null : removeByIndex(size - 1);
 	}
 
 	/**
@@ -334,13 +338,8 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	@Override
 	public Position<T> removeNext(Position<T> position) {
-
 		Node<T> node = node(position);
-
-		if(node.index == size - 1) // Node is tail
-			return null;
-		else
-			return remove(node.index + 1);
+		return isTail(node) ? null : removeByIndex(node.index + 1);
 	}
 
 	/**
@@ -350,13 +349,8 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	@Override
 	public Position<T> removePrevious(Position<T> position) {
-
 		Node<T> node = node(position);
-
-		if(node.index == 0) // Node is head
-			return null;
-		else
-			return remove(node.index - 1);
+		return isHead(node) ? null : removeByIndex(node.index - 1);
 	}
 
 	@Override
@@ -371,10 +365,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		T itemA = nodeA.item;
 
 		nodeA.item = nodeB.item;
-		nodeA.index = nodeB.index;
-
 		nodeB.item = itemA;
-		nodeB.index = indexA;
 	}
 
 	/**
@@ -384,10 +375,7 @@ public class ArrayList<T> extends AbstractList<T> {
 
 		// help GC and invalidate nodes
 		for (int idx = 0; idx < size; idx++) {
-			Node<T> node = node(data[idx]);
-
-			node.index = -1;
-			node.item = null;
+			node(data[idx]).delete();
 			data[idx] = null;
 		}
 
@@ -396,12 +384,12 @@ public class ArrayList<T> extends AbstractList<T> {
 
 	/**
 	 * Check if the given item is stored in the list
-	 * @param item to be searched for
+	 * @param itemToSearch to be searched for
 	 * @return if the item is stored in the list
 	 */
-	public boolean contains(T item) {
-		for (int idx = 0; idx < size; idx++) {
-			if(data[idx].getElement().equals(item))
+	public boolean contains(T itemToSearch) {
+		for (T item : this) {
+			if(itemToSearch.equals(item))
 				return true;
 		}
 		return false;
@@ -463,10 +451,15 @@ public class ArrayList<T> extends AbstractList<T> {
 	 * @param startIndex
 	 */
 	private void shiftLeft(int startIndex) {
+
 		int length = size - startIndex - 1;
 		System.arraycopy(data, startIndex + 1, data, startIndex, length);
-		data[size - 1] = null; // void last index
-		size--;
+
+		data[size - 1] = null; // void last item
+
+		// Update nodes internal index
+		for (int idx = startIndex; idx < size - 1; idx++)
+			data[idx].index--;
 	}
 
 	/**
@@ -480,8 +473,12 @@ public class ArrayList<T> extends AbstractList<T> {
 
 		int length = size - startIndex;
 		System.arraycopy(data, startIndex, data, startIndex + 1, length);
+
 		data[startIndex] = null;
-		size++;
+
+		// Update nodes internal index
+		for (int idx = startIndex + 1; idx <= size; idx++)
+			data[idx].index++;
 	}
 
 	/**
@@ -512,7 +509,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		// Safe cast
 		Node<T> node = (Node<T>) position;
 
-		if(node.index < 0)
+		if(node.index == INVALID)
 			throw new IllegalArgumentException("Position is no longer in the list");
 
 		return node;
@@ -543,8 +540,25 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(Position<T> pos : this.positions()) {
+			sb.append(node(pos)).append("\n");
+		}
+		return sb.toString();
+	}
+
+	@Override
 	public int hashCode() {
 		// TODO
 		return -1;
+	}
+
+	private boolean isHead(Node<T> node) {
+		return node.index == 0 && size > 0;
+	}
+
+	private boolean isTail(Node<T> node) {
+		return node.index == size - 1 && size > 0;
 	}
 }

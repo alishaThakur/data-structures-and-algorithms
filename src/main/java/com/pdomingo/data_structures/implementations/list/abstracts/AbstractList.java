@@ -55,7 +55,7 @@ public abstract class AbstractList<T> implements List<T> {
 	@Override
 	public Iterable<T> removeAll(Iterable<T> items) {
 		for(T item : items)
-			remove(item);
+			removeByItem(item);
 
 		return this;
 	}

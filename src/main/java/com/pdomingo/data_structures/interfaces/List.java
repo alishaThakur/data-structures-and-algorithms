@@ -4,19 +4,7 @@ package com.pdomingo.data_structures.interfaces;
  * Positional ordered group of elements
  * @param <T> type
  */
-public interface List<T> extends Iterable<T>, Cloneable {
-
-	/**
-	 * Number of elements stored in the list
-	 * @return size of the list
-	 */
-	int size();
-
-	/**
-	 * Checks if the list has elements
-	 * @return true if the list is empty
-	 */
-	boolean isEmpty();
+public interface List<T> extends Collection<T> {
 
 	/**
 	 * Appends the item to the end of the list (shortcut for addLast)
@@ -95,18 +83,18 @@ public interface List<T> extends Iterable<T>, Cloneable {
 
 	/**
 	 * Remove the value of the position stored at the given index with value
-	 * @param index of the list where to remove the given index
+	 * @param index of the list where to removeByIndex the given index
 	 * @return the list
 	 * @throws IndexOutOfBoundsException if index is not accessible
 	 */
-	Position<T> remove(int index) throws IndexOutOfBoundsException;
+	Position<T> removeByIndex(int index) throws IndexOutOfBoundsException;
 
 	/**
 	 * Removes the first item equal to the given item from the list
-	 * @param item to remove from the list
+	 * @param item to removeByIndex from the list
 	 * @return if the item was found and removed from the list
 	 */
-	boolean remove(T item);
+	boolean removeByItem(T item);
 
 	/**
 	 * Removes the first position of the list
@@ -147,11 +135,6 @@ public interface List<T> extends Iterable<T>, Cloneable {
 	 * @param indexB index of other element to swap
 	 */
 	void swap(int indexA, int indexB);
-
-	/**
-	 * Empty the list
-	 */
-	void clear();
 
 	/**
 	 * Check if the given item is stored in the list

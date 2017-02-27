@@ -26,7 +26,7 @@ import java.util.Iterator;
  *      <tr><td>{@link LinkedList#addAll(Iterable)}</td><td>O(n)</td></tr>
  *      <tr><td>{@link LinkedList#get(int)}</td><td>O(1)</td></tr>
  *      <tr><td>{@link LinkedList#put(Object, int)}</td><td>O(1)</td></tr>
- *      <tr><td>{@link LinkedList#remove(int)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link LinkedList#removeByIndex(int)}</td><td>O(n)</td></tr>
  *      <tr><td>{@link LinkedList#last()}</td><td>O(1)</td></tr>
  *      <tr><td>{@link LinkedList#removeFirst()}</td><td>O(1)</td></tr>
  *      <tr><td>{@link LinkedList#removeLast()}</td><td>O(1)</td></tr>
@@ -100,6 +100,69 @@ public class LinkedList<T> extends AbstractList<T> {
 		return this;
 	}
 
+	public List<T> addFirst(T item) {
+
+		if (isEmpty())
+			addLast(item);
+		else {
+			Node<T> newHead = new Node<>(item, null, head);
+
+			head.prev = newHead; // NH <- H
+			head = newHead;
+			size++;
+		}
+
+		return this;
+	}
+
+	public List<T> addLast(T item) {
+
+		Node<T> newTail = new Node<>(item, tail, null);
+
+		if (isEmpty())
+			head = newTail;
+		else
+			tail.next = newTail; // T -> NT
+
+		tail = newTail;
+		size++;
+
+		return this;
+	}
+
+	@Override
+	public List<T> addAfter(Position<T> position, T item) {
+
+		Node<T> node = node(position);
+
+		if(node == tail)
+			addLast(item);
+		else {
+			Node<T> newNode = new Node<>(item, node, node.next);
+			node.next = newNode;
+			newNode.next.prev = newNode;
+		}
+
+		return this;
+	}
+
+	@Override
+	public List<T> addBefore(Position<T> position, T item) {
+
+		Node<T> node = node(position);
+
+		if(node == head)
+			addFirst(item);
+		else {
+			Node<T> newNode = new Node<>(item, node.prev, node);
+			node.prev = newNode;
+			newNode.prev.next = newNode;
+		}
+
+		return this;
+	}
+
+
 	@Override
 	public Position<T> get(int index) throws IndexOutOfBoundsException {
 		checkRange(index);
@@ -128,7 +191,7 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public Position<T> remove(int index) throws IndexOutOfBoundsException {
+	public Position<T> removeByIndex(int index) throws IndexOutOfBoundsException {
 
 		checkRange(index);
 
@@ -139,7 +202,7 @@ public class LinkedList<T> extends AbstractList<T> {
 		if (node == tail)
 			return removeLast();
 
-		// Remove else
+		// Node between head and tail
 		Node<T> prevNode = node.prev;
 		Node<T> nextNode = node.next;
 
@@ -155,12 +218,12 @@ public class LinkedList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public boolean remove(T item) {
+	public boolean removeByItem(T item) {
 		int position = findItem(item);
 		if (position == -1)
 			return false;
 
-		remove(position);
+		removeByIndex(position);
 		return true;
 	}
 
@@ -235,9 +298,19 @@ public class LinkedList<T> extends AbstractList<T> {
 	@Override
 	public void clear() {
 
-		for(Node<T> node = head; node != null; node = node.next) {
+		if(isEmpty())
+			return;
+
+		Node<T> next = head.next;
+
+		for(Node<T> node = head; next != null;) {
+
 			node.prev = null;
+			node.next = null;
 			node.item = null;
+
+			node = next;
+			next = node.next;
 		}
 
 		head = tail = null;
@@ -260,17 +333,17 @@ public class LinkedList<T> extends AbstractList<T> {
 		public Iterator<Position<T>> iterator() {
 			return new Iterator<Position<T>>() {
 
-				private int index = 0;
+				private Node<T> node = head;
 
 				@Override
 				public boolean hasNext() {
-					return index < size();
+					return node == null;
 				}
 
 				@Override
 				public Position<T> next() {
-					Position<T> position = get(index);
-					index++;
+					Position<T> position = node;
+					node = node.next;
 					return position;
 				}
 			};
@@ -298,46 +371,6 @@ public class LinkedList<T> extends AbstractList<T> {
 				}
 			};
 		}
-	}
-
-	public List<T> addFirst(T item) {
-
-		if (isEmpty())
-			addLast(item);
-		else {
-			Node<T> newHead = new Node<>(item, null, head);
-
-			head.prev = newHead; // NH <- H
-			head = newHead;
-			size++;
-		}
-
-		return this;
-	}
-
-	public List<T> addLast(T item) {
-
-		Node<T> newTail = new Node<>(item, tail, null);
-
-		if (isEmpty())
-			head = newTail;
-		else
-			tail.next = newTail; // T -> NT
-
-		tail = newTail;
-		size++;
-
-		return this;
-	}
-
-	@Override
-	public List<T> addAfter(Position<T> position, T item) {
-		return null;
-	}
-
-	@Override
-	public List<T> addBefore(Position<T> position, T item) {
-		return null;
 	}
 
 	@Override

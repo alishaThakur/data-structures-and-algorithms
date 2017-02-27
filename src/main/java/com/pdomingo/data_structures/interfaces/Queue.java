@@ -4,24 +4,7 @@ package com.pdomingo.data_structures.interfaces;
  * FIFO (First In First Out) positional group of elements
  * @param <T> type
  */
-public interface Queue<T> extends Iterable<T> {
-
-	/**
-	 * Number of elements stored in the queue
-	 * @return size of the queue
-	 */
-	int size();
-
-	/**
-	 * Checks if the queue has elements
-	 * @return true if the queue is empty
-	 */
-	boolean isEmpty();
-
-	/**
-	 * Empty the queue
-	 */
-	void clear();
+public interface Queue<T> extends Collection<T> {
 
 	/**
 	 * Inserst a new item at the last position of the queue

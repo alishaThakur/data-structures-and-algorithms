@@ -4,24 +4,7 @@ package com.pdomingo.data_structures.interfaces;
  * LIFO (Last In First Out) positional group of elements
  * @param <T> type
  */
-public interface Stack<T> extends Iterable<T> {
-
-	/**
-	 * Number of elements stored in the stack
-	 * @return size of the stack
-	 */
-	int size();
-
-	/**
-	 * Checks if the stack has elements
-	 * @return true if the stack is empty
-	 */
-	boolean isEmpty();
-
-	/**
-	 * Empty the stack
-	 */
-	void clear();
+public interface Stack<T> extends Collection<T> {
 
 	/**
 	 * Inserts a new item at the top of the stack

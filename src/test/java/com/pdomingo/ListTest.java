@@ -4,6 +4,7 @@ import java.lang.IndexOutOfBoundsException;
 import com.pdomingo.data_structures.implementations.list.ArrayList;
 import com.pdomingo.data_structures.implementations.list.LinkedList;
 import com.pdomingo.data_structures.interfaces.List;
+import com.pdomingo.data_structures.interfaces.Position;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,9 +14,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by Pablo on 24/12/16.
@@ -98,6 +97,45 @@ public class ListTest {
 	}
 
 	@Test
+	public void shouldAddAfter() {
+
+		String item1 = "item1";
+		String item2 = "item2";
+		String item3 = "item3";
+		String item4 = "item4";
+
+		testList.add(item1);
+		testList.add(item2);
+		testList.add(item3);
+
+		Position<String> position = testList.get(1);
+		testList.addAfter(position, item4);
+
+		assertTrue(testList.size() == 4);
+		assertEquals(testList.get(2).getElement(), item4);
+	}
+
+	@Test
+	public void shouldAddBefore() {
+
+		String item1 = "item1";
+		String item2 = "item2";
+		String item3 = "item3";
+		String item4 = "item4";
+
+		testList.add(item1);
+		testList.add(item2);
+		testList.add(item3);
+
+		Position<String> position = testList.get(1);
+		testList.addBefore(position, item4);
+
+		assertTrue(testList.size() == 4);
+		assertEquals(testList.get(1).getElement(), item4);
+		assertEquals(testList.get(2).getElement(), item2);
+	}
+
+	@Test
 	public void shouldGetItem() {
 
 		String item1 = "item1";
@@ -159,17 +197,17 @@ public class ListTest {
 
 		assertTrue(testList.size() == 3);
 
-		removedItem = testList.remove(2).getElement();
+		removedItem = testList.removeByIndex(2).getElement();
 
 		assertEquals(removedItem, item3);
 		assertTrue(testList.size() == 2);
 
-		removedItem = testList.remove(0).getElement();
+		removedItem = testList.removeByIndex(0).getElement();
 
 		assertEquals(removedItem, item1);
 		assertTrue(testList.size() == 1);
 
-		removedItem = testList.remove(0).getElement();
+		removedItem = testList.removeByIndex(0).getElement();
 
 		assertEquals(removedItem, item2);
 		assertTrue(testList.size() == 0);
@@ -179,7 +217,7 @@ public class ListTest {
 
 	@Test(expected = IndexOutOfBoundsException.class)
 	public void shouldThrowIndexOutOfBoundsOnRemove() {
-		testList.remove(0);
+		testList.removeByIndex(0);
 	}
 
 	@Test
@@ -196,20 +234,20 @@ public class ListTest {
 		assertTrue(testList.size() == 3);
 
 		// Pre [item1, item2, item3]
-		assertTrue(testList.remove(item2));
+		assertTrue(testList.removeByItem(item2));
 		assertTrue(testList.size() == 2);
 		assertEquals(testList.get(0).getElement(), item1);
 		assertEquals(testList.get(1).getElement(), item3);
 		// Pos [item1, item3]
 
 		// Pre [item1, item3]
-		assertTrue(testList.remove(item1));
+		assertTrue(testList.removeByItem(item1));
 		assertTrue(testList.size() == 1);
 		assertEquals(testList.get(0).getElement(), item3);
 		// Pos [item3]
 
 		// Pre [item3]
-		assertTrue(testList.remove(item3));
+		assertTrue(testList.removeByItem(item3));
 		assertTrue(testList.isEmpty());
 		// Pos []
 	}
@@ -223,7 +261,7 @@ public class ListTest {
 		testList.add(item1);
 
 		// Pre [item1]
-		assertFalse(testList.remove(item2));
+		assertFalse(testList.removeByItem(item2));
 		assertFalse(testList.isEmpty());
 		assertEquals(testList.get(0).getElement(), item1);
 		// Pos [item1]
@@ -315,7 +353,7 @@ public class ListTest {
 
 		assertFalse(testList.contains("item4"));
 		assertFalse(testList.contains("item5"));
-		testList.remove(item2);
+		testList.removeByItem(item2);
 		assertFalse(testList.contains("item2"));
 		// Pos [item1, item3]
 	}
@@ -338,7 +376,7 @@ public class ListTest {
 		// Pos [item1, item2]
 
 		// Pre [item1, item2]
-		testList.remove(0);
+		testList.removeByIndex(0);
 		// Pos [item2]
 
 		// Pre [item2]
@@ -346,7 +384,7 @@ public class ListTest {
 		// Pos [item2, item4, item3]
 
 		// Pre [item2, item4, item3]
-		testList.remove(item4);
+		testList.removeByItem(item4);
 		// Pos [item2, item3]
 
 		// Pre [item2, item3]
@@ -360,12 +398,12 @@ public class ListTest {
 
 		// Pre [item2, item3, item7]
 		testList.add(item6);
-		testList.remove(2);
+		testList.removeByIndex(2);
 		// Pos [item2, item3, item6]
 
 		// Pre [item2, item3, item6]
 		testList.add(item8);
-		testList.remove(1);
+		testList.removeByIndex(1);
 		// Pos [item2, item6, item8]
 
 		assertTrue(testList.size() == 3);

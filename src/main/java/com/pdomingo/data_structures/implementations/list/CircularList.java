@@ -29,7 +29,7 @@ import java.util.Iterator;
  *      <tr><td>{@link CircularList#addAll(Iterable)}</td><td>O(n)</td></tr>
  *      <tr><td>{@link CircularList#get(int)}</td><td>O(1)</td></tr>
  *      <tr><td>{@link CircularList#put(Object, int)}</td><td>O(1)</td></tr>
- *      <tr><td>{@link CircularList#remove(int)}</td><td>O(n)</td></tr>
+ *      <tr><td>{@link CircularList#removeByIndex(int)}</td><td>O(n)</td></tr>
  *      <tr><td>{@link CircularList#last()}</td><td>O(1)</td></tr>
  *      <tr><td>{@link CircularList#removeFirst()}</td><td>O(1)</td></tr>
  *      <tr><td>{@link CircularList#removeLast()}</td><td>O(1)</td></tr>
@@ -50,18 +50,18 @@ public class CircularList<T> extends AbstractList<T> {
 
 	private int size;
 
-	private class Node<T> implements Position<T> {
-		T item;
-		Node<T> prev, next;
+	private class Node<E> implements Position<E> {
+		E item;
+		Node<E> prev, next;
 
-		private Node(T item, Node<T> prev, Node<T> next) {
+		private Node(E item, Node<E> prev, Node<E> next) {
 			this.item = item;
 			this.prev = prev;
 			this.next = next;
 		}
 
 		@Override
-		public T getElement() {
+		public E getElement() {
 			return item;
 		}
 
@@ -123,7 +123,7 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public Position<T> remove(int index) throws IndexOutOfBoundsException {
+	public Position<T> removeByIndex(int index) throws IndexOutOfBoundsException {
 
 		index = index % size; //Circular nature
 		checkRange(index);
@@ -189,12 +189,12 @@ public class CircularList<T> extends AbstractList<T> {
 	}
 
 	@Override
-	public boolean remove(T item) {
+	public boolean removeByItem(T item) {
 		int position = findItem(item);
 		if (position == -1)
 			return false;
 
-		remove(position);
+		removeByIndex(position);
 		return true;
 	}
 
@@ -226,10 +226,10 @@ public class CircularList<T> extends AbstractList<T> {
 		checkRange(indexB);
 
 
-		Node<T> nodeA = node(get(indexA));
-		Node<T> nodeB = node(get(indexB));
+		Node<E> nodeA = node(get(indexA));
+		Node<E> nodeB = node(get(indexB));
 
-		T itemA = nodeA.item;
+		E itemA = nodeA.item;
 
 		nodeA.item = nodeB.item;
 		nodeB.item = itemA;
@@ -296,10 +296,10 @@ public class CircularList<T> extends AbstractList<T> {
 			newTail.next = newTail;
 		} else {
 			newTail.next = tail.next;
-			newTail.prev = tail; // T <-> NT
+			newTail.prev = tail; // E <-> NT
 
 			tail.next.prev = newTail;
-			tail.next = newTail; // T -> NT
+			tail.next = newTail; // E -> NT
 
 			tail = newTail;
 		}
@@ -351,6 +351,6 @@ public class CircularList<T> extends AbstractList<T> {
 		System.out.printf(cl.toString());
 		cl.rotate();
 		System.out.printf(cl.toString());
-		cl.remove("item1");
+		cl.removeByItem("item1");
 	}
 }

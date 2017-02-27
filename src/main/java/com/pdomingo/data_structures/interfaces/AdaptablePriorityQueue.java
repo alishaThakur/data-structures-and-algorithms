@@ -2,6 +2,8 @@ package com.pdomingo.data_structures.interfaces;
 
 /**
  *
+ * @param <K>
+ * @param <V>
  */
 public interface AdaptablePriorityQueue<K,V> extends PriorityQueue<K,V> {
 

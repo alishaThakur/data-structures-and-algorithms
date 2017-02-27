@@ -4,24 +4,7 @@ package com.pdomingo.data_structures.interfaces;
  *
  * @param <T>
  */
-public interface Tree<T> extends Iterable<T> {
-
-	/**
-	 * Number of elements stored in the tree
-	 * @return size of the tree
-	 */
-	int size();
-
-	/**
-	 * Checks if the tree has elements
-	 * @return true if the tree is empty
-	 */
-	boolean isEmpty();
-
-	/**
-	 * Empty the tree
-	 */
-	void clear();
+public interface Tree<T> extends Collection<T> {
 
 	/**
 	 * Get the root position of the tree
