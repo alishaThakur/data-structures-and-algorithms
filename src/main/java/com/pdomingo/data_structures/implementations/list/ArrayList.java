@@ -63,8 +63,8 @@ public class ArrayList<T> extends AbstractList<T> {
 	 */
 	private static class Node<E> implements Position<E> {
 
-		int index;
-		E item;
+		private int index;
+		private E item;
 
 		private Node(int index, E item) {
 			this.index = index;

@@ -6,6 +6,7 @@ import com.pdomingo.data_structures.interfaces.Entry;
 import com.pdomingo.data_structures.interfaces.List;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  *
@@ -223,5 +224,15 @@ public class BinaryHeap<K,V> extends AbstractPriorityQueue<K,V> {
 	 */
 	protected static int depth(int index) {
 		return (int) Math.abs(Math.log(index + 1) / log2);
+	}
+
+	/**
+	 * Returns an iterator over elements of type {@code T}.
+	 *
+	 * @return an Iterator.
+	 */
+	@Override
+	public Iterator<Entry<K, V>> iterator() {
+		return heap.iterator();
 	}
 }

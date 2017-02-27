@@ -7,6 +7,7 @@ import com.pdomingo.data_structures.interfaces.List;
 import com.pdomingo.data_structures.interfaces.Position;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  *
@@ -89,5 +90,15 @@ public class LinkedPriorityQueue<K,V> extends AbstractPriorityQueue<K,V> {
 	@Override
 	public Entry<K, V> removeFirst() {
 		return queue.removeFirst().getElement();
+	}
+
+	/**
+	 * Returns an iterator over elements of type {@code T}.
+	 *
+	 * @return an Iterator.
+	 */
+	@Override
+	public Iterator<Entry<K, V>> iterator() {
+		return queue.iterator();
 	}
 }

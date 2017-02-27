@@ -51,8 +51,9 @@ public class CircularList<T> extends AbstractList<T> {
 	private int size;
 
 	private class Node<E> implements Position<E> {
-		E item;
-		Node<E> prev, next;
+
+		private E item;
+		private Node<E> prev, next;
 
 		private Node(E item, Node<E> prev, Node<E> next) {
 			this.item = item;

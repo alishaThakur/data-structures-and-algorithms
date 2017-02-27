@@ -276,36 +276,4 @@ public class LinkedBinaryTree<T> extends AbstractBinaryTree<T> {
 
 		return binaryNode;
 	}
-
-
-	public static void main(String[] args) {
-
-		LinkedBinaryTree<String> tree = new LinkedBinaryTree<>();
-
-		tree.addRoot("A");
-		Position<String> left = tree.addLeft(tree.root(), "B");
-		Position<String> right = tree.addRight(tree.root(), "C");
-
-		Position<String> left2 = tree.addLeft(left, "B1");
-		tree.addRight(left, "B2");
-
-		tree.addLeft(right, "C1");
-		Position<String> right2 = tree.addRight(right, "C2");
-
-		tree.addLeft(left2, "B11");
-		tree.addRight(left2, "B12");
-
-		Position<String> right21 = tree.addLeft(right2, "C21");
-		tree.addRight(right2, "C22");
-
-		tree.addLeft(right21, "C211");
-		Position<String> tmp = tree.addRight(right21, "C212");
-
-		System.out.println(tree.toString());
-
-		TraversalStrategy<String> inOrder = TraversalStrategies.inOrder();
-		Iterable<Position<String>> positions = tree.traverse(inOrder);
-		for(Position<String> pos : positions)
-			System.out.println(pos.getElement());
-	}
 }
