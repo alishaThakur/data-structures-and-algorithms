@@ -21,7 +21,9 @@
  	* [Binary Heap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/priority_queue/BinaryHeap.java)
  	* [Adaptable Binary Heap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/priority_queue/AdaptableBinaryHeap.java)
  * [Map](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/Map.java)
- 
+    * [HashMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/map/HashMap.java)
+ * [SortedMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/SortedMap.java)
+    
 ###Algorithms
 
  * [Traversal Strategies](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/tree/TraversalStrategies.java)
