@@ -4,6 +4,7 @@ import com.pdomingo.data_structures.interfaces.Position;
 import java.lang.IndexOutOfBoundsException;
 import com.pdomingo.data_structures.interfaces.List;
 
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -58,6 +59,26 @@ public abstract class AbstractList<T> implements List<T> {
 			removeByItem(item);
 
 		return this;
+	}
+
+	public T findItem(T itemToFind, Comparator<T> comparator) {
+		for (T item : this)
+			if(comparator.compare(itemToFind, item) == 0)
+				return item;
+
+		return null;
+	}
+
+	public int findIndex(T itemToFind, Comparator<T> comparator) {
+
+		int idx = 0;
+		for (T item : this) {
+			if (comparator.compare(itemToFind, item) == 0)
+				return idx;
+			idx++;
+		}
+
+		return -1;
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package com.pdomingo.data_structures.interfaces;
 
+import java.util.Comparator;
+
 /**
  * Positional ordered group of elements
  * @param <T> type
@@ -155,4 +157,14 @@ public interface List<T> extends Collection<T> {
 	 * @return the positions stored in the list in order of insertion
 	 */
 	Iterable<Position<T>> positions();
+
+	/**
+	 *
+	 * @param itemToFind
+	 * @param comparator
+	 * @return
+	 */
+	T findItem(T itemToFind, Comparator<T> comparator);
+
+	int findIndex(T itemToFind, Comparator<T> comparator);
 }

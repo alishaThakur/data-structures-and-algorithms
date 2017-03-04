@@ -55,7 +55,7 @@ public class ArrayList<T> extends AbstractList<T> {
 	private static final int DEFAULT_CAPACITY = 16;
 	private static final int INVALID = -1;
 
-	/********************* Nested classes *********************/
+	/*--------------------- Nested classes ---------------------*/
 
 	/**
 	 * Internal object stored in the array
@@ -91,7 +91,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		}
 	}
 
-	/********************* Constructors *********************/
+	/*--------------------- Constructors ---------------------*/
 
 	/**
 	 * Default constructor
@@ -120,7 +120,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		this.addAll(items);
 	}
 
-	/********************* Public methods *********************/
+	/*--------------------- Public Methods ---------------------*/
 
 	/**
 	 * Number of elements stored in the list
@@ -281,9 +281,10 @@ public class ArrayList<T> extends AbstractList<T> {
 	}
 
 	/**
-	 * TODO
+	 * Return the index of the given item in the list or -1
+	 * if the item is not in the list
 	 * @param item
-	 * @return
+	 * @return index of item or -1 if there's no such item
 	 */
 	private int findItem(T item) {
 
@@ -430,7 +431,7 @@ public class ArrayList<T> extends AbstractList<T> {
 		}
 	}
 
-	/********************* Private methods *********************/
+	/*--------------------- Private Methods ---------------------*/
 
 	/**
 	 * Duplicates de capacity of the baking array and copies existing data
