@@ -160,11 +160,25 @@ public interface List<T> extends Collection<T> {
 
 	/**
 	 *
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	List<T> sublist(int from, int to);
+
+	/**
+	 *
 	 * @param itemToFind
 	 * @param comparator
 	 * @return
 	 */
 	T findItem(T itemToFind, Comparator<T> comparator);
 
+	/**
+	 *
+	 * @param itemToFind
+	 * @param comparator
+	 * @return
+	 */
 	int findIndex(T itemToFind, Comparator<T> comparator);
 }

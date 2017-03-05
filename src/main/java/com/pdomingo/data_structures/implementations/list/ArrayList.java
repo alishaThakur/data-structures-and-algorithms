@@ -1,5 +1,6 @@
 package com.pdomingo.data_structures.implementations.list;
 
+import com.pdomingo.data_structures.implementations.common.Collections;
 import com.pdomingo.data_structures.interfaces.Position;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
 import com.pdomingo.data_structures.interfaces.List;
@@ -394,6 +395,20 @@ public class ArrayList<T> extends AbstractList<T> {
 				return true;
 		}
 		return false;
+	}
+
+	public List<T> sublist(int from, int to) {
+
+		int size = to - from;
+		if(size <= 0)
+			return Collections.emptyList(); // Empty sublist. TODO improve
+		else {
+			List<T> sublist = new ArrayList<>(size);
+			while(from < to)
+				sublist.add(get(from++).getElement());
+
+			return sublist;
+		}
 	}
 
 	/**

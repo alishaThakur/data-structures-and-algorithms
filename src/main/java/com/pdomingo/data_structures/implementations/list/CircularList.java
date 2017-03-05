@@ -259,6 +259,16 @@ public class CircularList<T> extends AbstractList<T> {
 		return null;
 	}
 
+	/**
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	@Override
+	public List<T> sublist(int from, int to) {
+		return null; // TODO
+	}
+
 	private class BackwardIterable implements Iterable<T> {
 
 		@Override

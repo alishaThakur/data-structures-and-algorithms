@@ -1,5 +1,6 @@
 package com.pdomingo.data_structures.implementations.list;
 
+import com.pdomingo.data_structures.implementations.common.Collections;
 import com.pdomingo.data_structures.interfaces.Position;
 import java.lang.IndexOutOfBoundsException;
 import com.pdomingo.data_structures.implementations.list.abstracts.AbstractList;
@@ -320,6 +321,24 @@ public class LinkedList<T> extends AbstractList<T> {
 	@Override
 	public boolean contains(T item) {
 		return findItem(item) != -1;
+	}
+
+	public List<T> sublist(int from, int to) {
+
+		int size = to - from;
+		if(size <= 0)
+			return Collections.emptyList();
+		else {
+			List<T> sublist = new LinkedList<>();
+
+			Node<T> node = getNodeAt(from);
+			while(size > 0) {
+				sublist.add(node.getElement());
+				node = node.next;
+			}
+
+			return sublist;
+		}
 	}
 
 	@Override

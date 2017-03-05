@@ -5,7 +5,6 @@ import com.pdomingo.data_structures.interfaces.Map;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Random;
 
 /**
  *
@@ -14,30 +13,7 @@ import java.util.Random;
  */
 public abstract class AbstractMap<K,V> implements Map<K,V> {
 
-	protected long prime = 179425867;
-	protected long scale;
-	protected long shift;
-
-	protected final Comparator<Entry<K, V>> keyComparator;
-
-	protected AbstractMap() {
-		Random random = new Random();
-		scale = random.nextInt((int) prime - 1) + 1;
-		shift = random.nextInt((int) prime);
-
-		keyComparator = keyComparator();
-	}
-
-	protected static <K,V> Comparator<Entry<K, V>> keyComparator() {
-		return new Comparator<Entry<K, V>>() {
-			@Override
-			public int compare(Entry<K, V> o1, Entry<K, V> o2) {
-				return o1.getKey().equals(o2.getKey()) ? 0 : -1;
-			}
-		};
-	}
-
-	protected static class MapEntry<K, V> implements Entry<K, V> {
+	public static class MapEntry<K, V> implements Entry<K, V> {
 
 		private K key;
 		private V value;
@@ -73,7 +49,23 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 
 		@Override
 		public String toString() {
-			return "MapEntry{" + key + ", " + value + "}";
+			return "MapEntry{" + key + " => " + value + "}";
+		}
+	}
+
+	protected static <K,V> Comparator<Entry<K, V>> entryComparator() {
+		return new Comparator<Entry<K, V>>() {
+			@Override
+			public int compare(Entry<K, V> o1, Entry<K, V> o2) {
+				return ((Comparable<K>) o1.getKey()).compareTo(o2.getKey());
+			}
+		};
+	}
+
+	protected static class DefaultComparator<K> implements Comparator<K> {
+		@Override
+		public int compare(K a, K b) throws ClassCastException {
+			return ((Comparable<K>) a).compareTo(b);
 		}
 	}
 
@@ -105,6 +97,16 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 	@Override
 	public Iterable<V> values() {
 		return new ValueIterable();
+	}
+
+	/**
+	 * Returns an iterator over elements of type {@code T}.
+	 *
+	 * @return an Iterator.
+	 */
+	@Override
+	public Iterator<Entry<K, V>> iterator() {
+		return entrySet().iterator();
 	}
 
 
@@ -150,57 +152,5 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
 				}
 			};
 		}
-	}
-
-	/**
-	 * Compress the given hashCode value to the range [0, N-1]
-	 * using Multiply-Add-Divide method
-	 * @param hashCode
-	 * @param size
-	 * @return
-	 */
-	protected int compress(int hashCode, int size) {
-		return (int) ((scale * hashCode + shift) % prime) % size;
-	}
-
-	/**
-	 * Find the next prime number after the given number
-	 *
-	 * http://stackoverflow.com/a/30052481
-	 *
-	 * @param number
-	 * @return next prime
-	 */
-	protected static int nextPrime(int number) {
-
-		if(number <= 0)
-			return 2; // first prime
-
-		int nextPrime = number;
-
-		outerloop:
-		while(true) {
-
-			nextPrime++;
-
-			if (nextPrime == 2 || nextPrime == 3)
-				break;
-			if (nextPrime % 2 == 0 || nextPrime % 3 == 0)
-				continue;
-
-			int divisor = 6;
-			while (divisor * divisor - 2 * divisor + 1 <= nextPrime) {
-
-				if (nextPrime % (divisor - 1) == 0)
-					continue outerloop;
-				if (nextPrime % (divisor + 1) == 0)
-					continue outerloop;
-
-				divisor += 6;
-			}
-			break;
-		}
-
-		return nextPrime;
 	}
 }

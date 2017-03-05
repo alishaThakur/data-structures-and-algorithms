@@ -1,7 +1,7 @@
 package com.pdomingo.data_structures.implementations.map;
 
 import com.pdomingo.data_structures.implementations.list.ArrayList;
-import com.pdomingo.data_structures.implementations.map.abstracts.AbstractMap;
+import com.pdomingo.data_structures.implementations.map.abstracts.AbstractHashMap;
 import com.pdomingo.data_structures.interfaces.Entry;
 import com.pdomingo.data_structures.interfaces.List;
 
@@ -17,7 +17,7 @@ import java.util.Iterator;
  * @param <K> key
  * @param <V> value
  */
-public class HashMap<K, V> extends AbstractMap<K, V> {
+public class HashMap<K, V> extends AbstractHashMap<K, V> {
 
 	private Bucket<K,V>[] map;
 	private List<K> keySet;
@@ -230,16 +230,6 @@ public class HashMap<K, V> extends AbstractMap<K, V> {
 				entries.addAll(bucket.entries);
 
 		return entries;
-	}
-
-	/**
-	 * Returns an iterator over elements of type {@code T}.
-	 *
-	 * @return an Iterator.
-	 */
-	@Override
-	public Iterator<Entry<K, V>> iterator() {
-		return entrySet().iterator();
 	}
 
 	/*--------------------- Private Methods ---------------------*/
