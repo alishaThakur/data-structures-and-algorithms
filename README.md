@@ -23,11 +23,13 @@
  * [Map](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/Map.java)
     * [HashMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/map/HashMap.java)
  * [SortedMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/SortedMap.java)
-    
+    * [SortedTableMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/map/SortedTableMap.java)
+    * [SkipList](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/map/SkipList.java)
+
 ###Algorithms
 
- * [Traversal Strategies](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/tree/TraversalStrategies.java)
+ * [Tree Traversal Strategies](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/tree/TraversalStrategies.java)
  * [Sort Strategies](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/algorithms/sorting/SortStrategies.java)
  
-&nbsp;&nbsp;&nbsp;[Completion status of Data Structures and Algorithms](https://github.com/pdoro/data-structures-and-algorithms/blob/master/STATUS.md) 
-&nbsp;&nbsp;&nbsp;[Summary of Data Structures and Algorithms](https://github.com/pdoro/data-structures-and-algorithms/blob/master/SUMMARY.md)
+[Completion status of Data Structures and Algorithms](https://github.com/pdoro/data-structures-and-algorithms/blob/master/STATUS.md)  
+[Summary of Data Structures and Algorithms](https://github.com/pdoro/data-structures-and-algorithms/blob/master/SUMMARY.md)
