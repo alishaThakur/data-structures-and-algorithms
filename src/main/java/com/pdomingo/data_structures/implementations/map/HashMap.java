@@ -2,8 +2,10 @@ package com.pdomingo.data_structures.implementations.map;
 
 import com.pdomingo.data_structures.implementations.list.ArrayList;
 import com.pdomingo.data_structures.implementations.map.abstracts.AbstractHashMap;
+import com.pdomingo.data_structures.implementations.set.HashSet;
 import com.pdomingo.data_structures.interfaces.Entry;
 import com.pdomingo.data_structures.interfaces.List;
+import com.pdomingo.data_structures.interfaces.Set;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -20,7 +22,7 @@ import java.util.Iterator;
 public class HashMap<K, V> extends AbstractHashMap<K, V> {
 
 	private Bucket<K,V>[] map;
-	private List<K> keySet;
+	private Set<K> keySet;
 
 	private final double maxLoadFactor;
 	private int size;
@@ -36,7 +38,7 @@ public class HashMap<K, V> extends AbstractHashMap<K, V> {
 		this.maxLoadFactor = maxLoadFactor;
 
 		map = (Bucket<K, V>[]) new Bucket[capacity];
-		keySet = new ArrayList<>();
+		keySet = new HashSet<>();
 	}
 
 	public HashMap() {
@@ -211,7 +213,7 @@ public class HashMap<K, V> extends AbstractHashMap<K, V> {
 		if(map[hashIndex] != null)
 			value = map[hashIndex].remove(key).getValue();
 
-		keySet.removeByItem(key);
+		keySet.remove(key);
 		size -= 1;
 
 		return value;
