@@ -180,6 +180,15 @@ public class LinkedList<T> extends AbstractList<T> {
 		return isEmpty() ? null : get(size - 1);
 	}
 
+
+	public Position<T> next(Position<T> position) {
+		return node(position).next;
+	}
+
+	public Position<T> previous(Position<T> position) {
+		return node(position).prev;
+	}
+
 	@Override
 	public List<T> put(T item, int index) throws IndexOutOfBoundsException {
 

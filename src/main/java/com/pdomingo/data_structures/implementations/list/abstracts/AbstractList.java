@@ -49,6 +49,19 @@ public abstract class AbstractList<T> implements List<T> {
 	}
 
 	/**
+	 * Adds all the items to the list
+	 * @param items to be inserted in the list
+	 * @return the list
+	 */
+	@Override
+	public List<T> addAll(T... items) {
+		for(T item : items)
+			add(item);
+
+		return this;
+	}
+
+	/**
 	 * Removed all the items that match any of the items
 	 * @param items group of items to be matched
 	 * @return the removed items

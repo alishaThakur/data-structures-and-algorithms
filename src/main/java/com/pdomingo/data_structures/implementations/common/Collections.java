@@ -3,6 +3,7 @@ package com.pdomingo.data_structures.implementations.common;
 import com.pdomingo.data_structures.implementations.list.LinkedList;
 import com.pdomingo.data_structures.interfaces.List;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -10,6 +11,17 @@ import java.util.NoSuchElementException;
  *
  */
 public class Collections {
+
+	public static <T> Comparator<T> defaultComparator() {
+		return new DefaultComparator<>();
+	}
+
+	private static class DefaultComparator<K> implements Comparator<K> {
+		@Override
+		public int compare(K a, K b) throws ClassCastException {
+			return ((Comparable<K>) a).compareTo(b);
+		}
+	}
 
     private static final Iterable EMPTY_ITERABLE = new EmptyIterable<>();
 	private static final List EMPTY_LIST = new LinkedList<>(); // TODO hacer inmutable

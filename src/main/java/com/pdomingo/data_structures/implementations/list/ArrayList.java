@@ -121,6 +121,12 @@ public class ArrayList<T> extends AbstractList<T> {
 		this.addAll(items);
 	}
 
+	@SafeVarargs
+	public ArrayList(T... items) {
+		this();
+		this.addAll(items);
+	}
+
 	/*--------------------- Public Methods ---------------------*/
 
 	/**
