@@ -1,6 +1,6 @@
-##Data Structures and Algorithms in Java
+## Data Structures and Algorithms in Java ###
 
-###Data Structures
+### Data Structures ###
  
  * [Collection](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/Collection.java)
  * [List](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/List.java)
@@ -16,6 +16,7 @@
  	* [Array Deque](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/queue/ArrayDeque.java)
  * [Tree](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/Tree.java)
  	* [Linked Binary Tree](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/tree/LinkedBinaryTree.java)
+ 	* [Linked Tree](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/tree/LinkedTree.java)
  * [Priority Queue](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/PriorityQueue.java)
  	* [Linked Priority Queue](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/priority_queue/LinkedPriorityQueue.java)
  	* [Binary Heap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/priority_queue/BinaryHeap.java)
@@ -25,8 +26,12 @@
  * [SortedMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/SortedMap.java)
     * [SortedTableMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/map/SortedTableMap.java)
     * [SkipList](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/map/SkipList.java)
+ * [MultiMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/MultiMap.java)
+    * [HashMultiMap](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/multimap/HashMultiMap.java)
+ * [Set](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/interfaces/Set.java)
+    * [HashSet](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/set/HashSet.java)
 
-###Algorithms
+### Algorithms ###
 
  * [Tree Traversal Strategies](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/data_structures/implementations/tree/TraversalStrategies.java)
  * [Sort Strategies](https://github.com/pdoro/data-structures-and-algorithms/blob/master/src/main/java/com/pdomingo/algorithms/sorting/SortStrategies.java)

@@ -55,6 +55,13 @@ public interface List<T> extends Collection<T> {
 	List<T> addAll(Iterable<T> items);
 
 	/**
+	 * Adds all the items to the list
+	 * @param items to be inserted in the list
+	 * @return the list
+	 */
+	List<T> addAll(T... items);
+
+	/**
 	 * Gets the position stored at the given index
 	 * @param index of the list to search the position for
 	 * @return the position stored at the given index
